@@ -1,11 +1,9 @@
 // Programa em C que realiza a soma de dois números inteiros fornecidos pelo usuário.
 
 #include <stdio.h>
-#include <locale.h>
 
-int main() {
-    
-    setlocale(LC_ALL, "Portuguese");
+int main() 
+{
 
     int a, b, soma;
 
