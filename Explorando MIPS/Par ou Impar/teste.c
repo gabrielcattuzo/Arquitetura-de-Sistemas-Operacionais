@@ -1,0 +1,1 @@
+/* Teste se o numero é par ou impar através do resto*/
