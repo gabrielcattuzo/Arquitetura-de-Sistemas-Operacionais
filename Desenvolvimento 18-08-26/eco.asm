@@ -1,6 +1,4 @@
 # Nome: Gabriel Cattuzo
-# RA: 24015324
-# Turma: 01
 
 .data
 entrada: .asciiz "Digite um numero: " # mensagem para o usuário inserir o numero de entrada
