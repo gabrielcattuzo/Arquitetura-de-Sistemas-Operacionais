@@ -1,46 +1,95 @@
-/* Desenvolvendo conversor de temperaturas em C*/
-/* Apenas aceita inserir em Celsius, em breve poderá ser inserido qualquer unidade e converter ela para qualquer unidade*/
+/* Desenvolvendo conversor de temperaturas em C */
 
 #include <stdio.h>
 
 int main()
 {
-    int celsius, fahrenheit, kelvin;
-    int opcao;
+    int temperatura, resultado;
+    int entrada, saida;
 
-    printf("Digite a temperatura em Celsius: ");
-    scanf("%d", &celsius);
-
-    printf("\nEscolha a conversao:\n");
-    printf("1 - Fahrenheit\n");
-    printf("2 - Kelvin\n");
-    printf("3 - Fahrenheit e Kelvin\n");
+    /* Escolhe a unidade da temperatura inserida */
+    printf("Escolha a unidade da temperatura:\n");
+    printf("1 - Celsius\n");
+    printf("2 - Fahrenheit\n");
+    printf("3 - Kelvin\n");
     printf("Digite a opcao desejada: ");
-    scanf("%d", &opcao);
+    scanf("%d", &entrada);
 
-    switch (opcao)
+    /* Verifica se a unidade de entrada eh valida */
+    if (entrada < 1 || entrada > 3)
     {
-        case 1:
-            fahrenheit = (celsius * 9) / 5 + 32;
-            printf("Temperatura em Fahrenheit: %d\n", fahrenheit);
-            break;
-
-        case 2:
-            kelvin = celsius + 273;
-            printf("Temperatura em Kelvin: %d\n", kelvin);
-            break;
-
-        case 3:
-            fahrenheit = (celsius * 9) / 5 + 32;
-            kelvin = celsius + 273;
-
-            printf("Temperatura em Fahrenheit: %d\n", fahrenheit);
-            printf("Temperatura em Kelvin: %d\n", kelvin);
-            break;
-
-        default:
-            printf("Opcao invalida!\n");
+        printf("Opcao invalida!\n");
+        return 0;
     }
+
+    /* Le a temperatura */
+    printf("\nDigite a temperatura: ");
+    scanf("%d", &temperatura);
+
+    /* Escolhe a unidade de saida */
+    printf("\nEscolha para qual unidade deseja converter:\n");
+    printf("1 - Celsius\n");
+    printf("2 - Fahrenheit\n");
+    printf("3 - Kelvin\n");
+    printf("Digite a opcao desejada: ");
+    scanf("%d", &saida);
+
+    /* Verifica se a unidade de saida eh valida */
+    if (saida < 1 || saida > 3)
+    {
+        printf("Opcao invalida!\n");
+        return 0;
+    }
+
+    switch (entrada)
+    {
+        /* Entrada em Celsius */
+        case 1:
+
+            if (saida == 1)
+                resultado = temperatura;
+
+            else if (saida == 2)
+                resultado = (temperatura * 9) / 5 + 32;
+
+            else
+                resultado = temperatura + 273;
+
+            break;
+
+
+        /* Entrada em Fahrenheit */
+        case 2:
+
+            if (saida == 1)
+                resultado = (temperatura - 32) * 5 / 9;
+
+            else if (saida == 2)
+                resultado = temperatura;
+
+            else
+                resultado = (temperatura - 32) * 5 / 9 + 273;
+
+            break;
+
+
+        /* Entrada em Kelvin */
+        case 3:
+
+            if (saida == 1)
+                resultado = temperatura - 273;
+
+            else if (saida == 2)
+                resultado = (temperatura - 273) * 9 / 5 + 32;
+
+            else
+                resultado = temperatura;
+
+            break;
+    }
+
+    /* Exibe o resultado */
+    printf("\nTemperatura convertida: %d\n", resultado);
 
     return 0;
 }
