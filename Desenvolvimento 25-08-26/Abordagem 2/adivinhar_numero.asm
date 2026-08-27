@@ -9,7 +9,7 @@
     msgtentativa: .asciiz "Digite novamente: "
     msgacertou: .asciiz "Parabens, voce acertou!"
 
-    numero: .byte 0
+    numero: .byte 1
 
 .text 
 .globl main 
