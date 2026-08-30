@@ -1,17 +1,19 @@
 # 🔬 Explorando MIPS
 
-### Tradução de programas em C para Assembly MIPS
+### Exercícios e traduções de C para Assembly MIPS
 
-Esta pasta reúne exercícios desenvolvidos para compreender como estruturas e operações escritas em **linguagem C** podem ser traduzidas para **Assembly MIPS**.
+Esta pasta reúne exercícios desenvolvidos para praticar **Assembly MIPS** através da comparação com programas equivalentes escritos em **C**.
 
-A proposta é partir de programas simples em C e implementar o mesmo comportamento em Assembly, permitindo comparar uma linguagem de alto nível com instruções executadas em um nível mais próximo do processador.
+A proposta é começar com operações simples e aumentar gradualmente a complexidade, passando por operações aritméticas, condicionais, operações lógicas, estruturas de repetição, menus e programas com múltiplos caminhos de execução.
 
 ---
 
-## 📂 Estrutura
+# 📂 Estrutura
 
 ```text
 Explorando MIPS/
+│
+├── README.md
 │
 ├── Tradução Soma/
 │   ├── soma.c
@@ -25,588 +27,663 @@ Explorando MIPS/
 │   ├── if.c
 │   └── if.asm
 │
-└── README.md
+├── Par ou Impar/
+│   ├── teste.c
+│   └── teste.asm
+│
+├── Media/
+│   ├── media.c
+│   └── media.asm
+│
+├── Comparador/
+│   ├── comparador.c
+│   └── comparador.asm
+│
+├── Comparador2/
+│   └── comparador.c
+│
+├── Contagem/
+│   ├── contagem.c
+│   └── contagem.asm
+│
+├── Somador/
+│   ├── somador.c
+│   └── somador.asm
+│
+├── Calculadora/
+│   ├── calc.c
+│   └── calc.asm
+│
+└── Conversor/
+    ├── conversor.c
+    └── conversor.asm
 ```
 
-Cada diretório contém duas versões do mesmo programa:
-
-* `.c` — implementação utilizando linguagem C;
-* `.asm` — implementação equivalente utilizando Assembly MIPS.
+> `contagem.asm` e `somador.asm` ainda estão vazios na versão atual.
+> O exercício `Comparador2` possui atualmente apenas a implementação em C.
 
 ---
 
-# 🔄 C → Assembly MIPS
+# 📊 Exercícios
 
-Em uma linguagem de alto nível como C, diversas operações são representadas através de comandos simples.
+| Exercício              |  C  | MIPS | Conceitos principais            |
+| ---------------------- | :-: | :--: | ------------------------------- |
+| Tradução Soma          |  ✅  |   ✅  | Soma e registradores            |
+| Tradução Multiplicação |  ✅  |   ✅  | Multiplicação                   |
+| Tradução IF            |  ✅  |   ✅  | Condicional e branch            |
+| Par ou Ímpar           |  ✅  |   ✅  | Operação lógica e bits          |
+| Média                  |  ✅  |   ✅  | Soma, divisão e comparação      |
+| Comparador             |  ✅  |   ✅  | Comparações                     |
+| Comparador 2           |  ✅  |   ⏳  | Três valores e empates          |
+| Contagem               |  ✅  |   ⏳  | Estrutura `for`                 |
+| Somador                |  ✅  |   ⏳  | Loop e acumulador               |
+| Calculadora            |  ✅  |   ✅  | Menu, switch e operações        |
+| Conversor              |  ✅  |   ✅  | Conversões e múltiplos branches |
 
-Por exemplo:
+---
+
+# ➕ 1. Tradução Soma
+
+O primeiro exercício realiza a soma de dois inteiros.
+
+Em C:
 
 ```c
 soma = a + b;
 ```
 
-Em Assembly, é necessário determinar explicitamente onde os valores serão armazenados.
+Em MIPS:
 
 ```asm
 add $t2, $t0, $t1
 ```
 
-Nesse caso:
+Correspondência:
 
 ```text
-C                           MIPS
-
-a          ──────────────►  $t0
-b          ──────────────►  $t1
-soma       ──────────────►  $t2
-
-soma = a + b              add $t2, $t0, $t1
+a     → $t0
+b     → $t1
+soma  → $t2
 ```
 
-Essa comparação ajuda a compreender como operações de linguagens de alto nível podem ser representadas através de instruções do processador.
+Este exercício introduz:
+
+* leitura de inteiros;
+* registradores temporários;
+* `add`;
+* impressão de resultados;
+* syscalls.
 
 ---
 
-# ➕ Tradução — Soma
+# ✖️ 2. Tradução Multiplicação
 
-O primeiro programa realiza a **soma de dois números inteiros** fornecidos pelo usuário.
+O segundo exercício modifica a operação anterior para realizar uma multiplicação.
 
-## Implementação em C
-
-A lógica principal é:
-
-```c
-int a, b, soma;
-
-scanf("%d", &a);
-scanf("%d", &b);
-
-soma = a + b;
-```
-
-Em C, as variáveis armazenam os valores utilizados durante a execução.
-
----
-
-## Implementação em MIPS
-
-Na versão Assembly, os valores são armazenados em registradores:
-
-```text
-Primeiro número  → $t0
-Segundo número   → $t1
-Resultado        → $t2
-```
-
-A soma é realizada através da instrução:
-
-```asm
-add $t2, $t0, $t1
-```
-
-Portanto:
-
-```text
-$t0 + $t1
-    │
-    ▼
-   ADD
-    │
-    ▼
-   $t2
-```
-
----
-
-## 🔄 Comparação
-
-| C          | MIPS                      |
-| ---------- | ------------------------- |
-| `a`        | `$t0`                     |
-| `b`        | `$t1`                     |
-| `soma`     | `$t2`                     |
-| `a + b`    | `add $t2, $t0, $t1`       |
-| `scanf()`  | `syscall 5`               |
-| `printf()` | `syscall 1` e `syscall 4` |
-
-Por exemplo, considerando:
-
-```text
-a = 10
-b = 20
-```
-
-temos:
-
-```text
-$t0 = 10
-$t1 = 20
-
-      10
-       │
-       ▼
-     ┌─────┐
-     │ ADD │ ─────► 30 ─────► $t2
-     └─────┘
-       ▲
-       │
-      20
-```
-
----
-
-# ✖️ Tradução — Multiplicação
-
-O segundo programa segue praticamente a mesma estrutura, porém realiza uma **multiplicação**.
-
-## Implementação em C
+Em C:
 
 ```c
 multi = a * b;
 ```
 
-## Implementação em MIPS
+Em MIPS:
 
 ```asm
 mul $t2, $t0, $t1
 ```
 
-Os registradores continuam seguindo:
-
-```text
-$t0 → primeiro número
-$t1 → segundo número
-$t2 → resultado
-```
-
-Portanto:
-
-```text
-$t0 × $t1
-    │
-    ▼
-   MUL
-    │
-    ▼
-   $t2
-```
+A estrutura de entrada e saída permanece semelhante, permitindo concentrar o estudo na instrução aritmética.
 
 ---
 
-## 🔄 Comparação
+# 🔀 3. Tradução IF
 
-| C          | MIPS                      |
-| ---------- | ------------------------- |
-| `a`        | `$t0`                     |
-| `b`        | `$t1`                     |
-| `multi`    | `$t2`                     |
-| `a * b`    | `mul $t2, $t0, $t1`       |
-| `scanf()`  | `syscall 5`               |
-| `printf()` | `syscall 1` e `syscall 4` |
+Este exercício verifica se um número é positivo.
 
-A principal diferença em relação ao programa anterior está na instrução utilizada:
-
-```text
-Soma:
-
-add $t2, $t0, $t1
-
-
-Multiplicação:
-
-mul $t2, $t0, $t1
-```
-
----
-
-# 🔀 Tradução — IF
-
-O terceiro exercício introduz **controle de fluxo**.
-
-O programa recebe um número inteiro e verifica se ele é positivo.
-
----
-
-## Implementação em C
-
-A condição utilizada é:
+Em C:
 
 ```c
 if (numero > 0)
-{
-    printf("O numero eh positivo\n");
-}
-else
-{
-    printf("O numero nao eh positivo\n");
-}
 ```
 
-Em C, a própria estrutura `if/else` controla qual trecho deverá ser executado.
-
----
-
-# 🔀 IF em Assembly MIPS
-
-Assembly não utiliza uma estrutura `if` da mesma forma que C.
-
-O controle de fluxo é realizado através de **instruções de desvio e salto**.
-
-No programa:
+Em MIPS:
 
 ```asm
 bgt $t0, $zero, ehPositivo
 ```
 
-é utilizado para verificar:
+A atividade introduz:
+
+* branches;
+* `$zero`;
+* labels;
+* `bgt`;
+* `j`;
+* implementação de `if/else`.
+
+Fluxo:
 
 ```text
-$t0 > 0 ?
-```
-
-O registrador:
-
-```asm
-$zero
-```
-
-possui sempre o valor:
-
-```text
-0
-```
-
-Portanto:
-
-```text
-             $t0 > $zero?
-                /     \
-              Sim     Não
-               │       │
-               ▼       ▼
-         ehPositivo   continua
-               │       │
-               ▼       ▼
-          "positivo"  "não positivo"
+Número
+  │
+  ▼
+> 0 ?
+ /   \
+Sim  Não
+ │    │
+ ▼    ▼
+Pos. Não Pos.
 ```
 
 ---
 
-# 🏷️ Labels
+# 🔢 4. Par ou Ímpar
 
-No Assembly, **labels** são utilizados para identificar pontos do programa.
+Este exercício verifica se um número é par ou ímpar.
 
-O código possui:
+Em C, a verificação utiliza:
+
+```c
+numero % 2 == 0
+```
+
+Na versão MIPS é utilizada uma abordagem em nível de bits:
 
 ```asm
-ehPositivo:
+andi $t1, $t0, 1
+```
+
+seguida de:
+
+```asm
+beqz $t1, ehPar
+```
+
+A operação verifica o **bit menos significativo**.
+
+```text
+Número em binário
+       │
+       ▼
+   último bit
+     /     \
+    0       1
+    │       │
+   Par    Ímpar
+```
+
+Esse exercício introduz uma aplicação prática de operações lógicas em Assembly.
+
+---
+
+# 📊 5. Média
+
+O programa calcula a média de duas notas e determina se o resultado representa aprovação ou reprovação.
+
+A implementação MIPS realiza:
+
+```asm
+add $t2, $t0, $t1
+```
+
+seguido de:
+
+```asm
+div $t2, $t3
+mflo $t2
+```
+
+Depois, compara a média com `5`:
+
+```asm
+bge $t2, $t3, aprovado
+```
+
+O exercício trabalha:
+
+* soma;
+* divisão;
+* `mflo`;
+* comparação;
+* `bge`;
+* labels.
+
+> A versão MIPS atual trabalha com inteiros, enquanto o programa C utiliza `float`. Portanto, as duas versões demonstram a mesma ideia geral, mas não possuem exatamente a mesma precisão numérica.
+
+---
+
+# ⚖️ 6. Comparador
+
+O comparador recebe dois números e determina:
+
+* se os números são iguais;
+* qual deles é maior.
+
+A implementação utiliza:
+
+```asm
+beq $t0, $t1, numerosIguais
 ```
 
 e:
 
 ```asm
-fim:
+bgt $t0, $t1, primeiroMaior
 ```
 
-Esses labels funcionam como destinos para instruções de desvio ou salto.
-
-Por exemplo:
-
-```asm
-bgt $t0, $zero, ehPositivo
-```
-
-significa:
+Fluxo:
 
 ```text
-Se $t0 > 0
-      │
-      ▼
-vá para ehPositivo
+           A == B?
+           /    \
+         Sim    Não
+          │      │
+          ▼      ▼
+       Iguais   A > B?
+                /   \
+              Sim   Não
+               │     │
+               ▼     ▼
+               A     B
+             maior maior
 ```
 
 ---
 
-# 🦘 Salto incondicional
+# 🔢 7. Comparador 2
 
-Após imprimir que o número não é positivo, o programa utiliza:
+O segundo comparador aumenta a complexidade do problema.
 
-```asm
-j fim
+Agora são recebidos **três números inteiros** e o programa determina o maior valor.
+
+Também são tratados empates entre:
+
+* os três números;
+* primeiro e segundo;
+* primeiro e terceiro;
+* segundo e terceiro.
+
+A implementação atual está disponível em:
+
+```text
+Comparador2/comparador.c
 ```
 
-A instrução:
+A versão MIPS ainda poderá ser desenvolvida posteriormente.
+
+---
+
+# 🔁 8. Contagem
+
+O programa C realiza uma contagem regressiva:
+
+```c
+for (cont = 10; cont >= 0; cont--)
+```
+
+produzindo:
+
+```text
+10
+9
+8
+7
+...
+1
+0
+FIM!
+```
+
+Esse exercício é útil para estudar a tradução de estruturas:
+
+```text
+for
+ │
+ ▼
+Inicialização
+ │
+ ▼
+Condição
+ │
+ ▼
+Corpo
+ │
+ ▼
+Atualização
+ │
+ └──────► condição
+```
+
+O arquivo `contagem.asm` existe, porém ainda está vazio na versão atual.
+
+---
+
+# ➕ 9. Somador de 1 até N
+
+O programa recebe um número `N` e soma todos os valores de `1` até ele.
+
+Em C:
+
+```c
+for (contador = 1; contador <= numero; contador++)
+{
+    soma += contador;
+}
+```
+
+Exemplo:
+
+```text
+N = 5
+
+1 + 2 + 3 + 4 + 5 = 15
+```
+
+O exercício trabalha principalmente:
+
+* contador;
+* acumulador;
+* repetição;
+* condição de parada.
+
+O arquivo `somador.asm` existe, porém ainda está vazio na versão atual.
+
+---
+
+# 🧮 10. Calculadora
+
+A calculadora representa um avanço importante em relação aos primeiros exercícios.
+
+O programa oferece:
+
+```text
+1 - Adição
+2 - Subtração
+3 - Multiplicação
+4 - Divisão
+0 - Sair
+```
+
+A versão em C utiliza:
+
+```c
+switch (operacao)
+```
+
+Já em MIPS, o comportamento é implementado através de comparações:
 
 ```asm
+beq $t0, $t4, adicao
+beq $t0, $t4, subtracao
+beq $t0, $t4, multiplicacao
+beq $t0, $t4, divisao
+```
+
+---
+
+## Operações
+
+### Soma
+
+```asm
+add $t3, $t1, $t2
+```
+
+### Subtração
+
+```asm
+sub $t3, $t1, $t2
+```
+
+### Multiplicação
+
+```asm
+mul $t3, $t1, $t2
+```
+
+### Divisão
+
+```asm
+div $t1, $t2
+mflo $t3
+```
+
+Também existe uma verificação para impedir divisão por zero:
+
+```asm
+beq $t2, $zero, divisaoZero
+```
+
+O programa retorna ao menu após cada operação, implementando um loop completo de execução.
+
+---
+
+# 🌡️ 11. Conversor de Temperaturas
+
+O conversor permite escolher:
+
+```text
+1 - Celsius
+2 - Fahrenheit
+3 - Kelvin
+```
+
+tanto para a unidade de entrada quanto para a unidade de saída.
+
+O programa suporta:
+
+```text
+Celsius    → Celsius
+Celsius    → Fahrenheit
+Celsius    → Kelvin
+
+Fahrenheit → Celsius
+Fahrenheit → Fahrenheit
+Fahrenheit → Kelvin
+
+Kelvin     → Celsius
+Kelvin     → Fahrenheit
+Kelvin     → Kelvin
+```
+
+---
+
+## Validação
+
+As opções são validadas utilizando:
+
+```asm
+blt
+```
+
+e:
+
+```asm
+bgt
+```
+
+para garantir que estejam entre `1` e `3`.
+
+---
+
+## Conversões
+
+### Celsius → Fahrenheit
+
+```text
+(C × 9) / 5 + 32
+```
+
+### Celsius → Kelvin
+
+```text
+C + 273
+```
+
+### Fahrenheit → Celsius
+
+```text
+(F - 32) × 5 / 9
+```
+
+### Fahrenheit → Kelvin
+
+```text
+(F - 32) × 5 / 9 + 273
+```
+
+### Kelvin → Celsius
+
+```text
+K - 273
+```
+
+### Kelvin → Fahrenheit
+
+```text
+(K - 273) × 9 / 5 + 32
+```
+
+A implementação utiliza instruções como:
+
+```asm
+addi
+mul
+div
+mflo
+beq
+blt
+bgt
 j
 ```
 
-realiza um **salto incondicional**.
-
-Isso é necessário para evitar que o programa continue executando as instruções existentes no bloco `ehPositivo`.
-
-O fluxo completo pode ser representado como:
-
-```text
-              Entrada
-                 │
-                 ▼
-         Lê número em $t0
-                 │
-                 ▼
-            $t0 > 0?
-            /       \
-          Sim       Não
-           │         │
-           ▼         ▼
-    ehPositivo   nãoPositivo
-           │         │
-           │         ▼
-           │       j fim
-           │         │
-           └────┬────┘
-                ▼
-               fim
-                │
-                ▼
-          encerra programa
-```
+Esse é um dos exercícios mais completos da pasta até o momento.
 
 ---
 
-# 📞 Entrada e Saída
+# 🧠 Instruções MIPS Utilizadas
 
-Os três exercícios utilizam **syscalls** para realizar entrada e saída.
+Ao longo dos exercícios aparecem:
 
-## Imprimir string
-
-```asm
-li $v0, 4
-la $a0, mensagem
-syscall
-```
-
-## Ler inteiro
-
-```asm
-li $v0, 5
-syscall
-```
-
-Após a leitura, o número está em:
-
-```text
-$v0
-```
-
-Por isso é utilizado:
-
-```asm
-move $t0, $v0
-```
-
-para preservar o valor.
-
----
-
-## Imprimir inteiro
-
-```asm
-li $v0, 1
-move $a0, $t2
-syscall
-```
-
-O valor que será impresso deve estar em:
-
-```text
-$a0
-```
-
----
-
-## Encerrar
-
-```asm
-li $v0, 10
-syscall
-```
-
----
-
-# 🧮 Registradores Utilizados
-
-Nos exercícios atuais são utilizados principalmente:
-
-| Registrador | Utilização                             |
-| ----------- | -------------------------------------- |
-| `$v0`       | Código da syscall e retorno da leitura |
-| `$a0`       | Argumento utilizado pelas syscalls     |
-| `$t0`       | Primeiro número / número analisado     |
-| `$t1`       | Segundo número                         |
-| `$t2`       | Resultado da operação                  |
-| `$zero`     | Valor constante `0`                    |
-
----
-
-# 🧩 Instruções Utilizadas
-
-Até o momento, os exercícios utilizam:
-
-| Instrução | Função                                  |
-| --------- | --------------------------------------- |
-| `li`      | Carrega um valor imediato               |
-| `la`      | Carrega um endereço                     |
-| `move`    | Copia um valor entre registradores      |
-| `add`     | Soma dois valores                       |
-| `mul`     | Multiplica dois valores                 |
-| `bgt`     | Desvia caso o primeiro valor seja maior |
-| `j`       | Realiza um salto incondicional          |
-| `syscall` | Executa uma chamada de sistema          |
+| Instrução | Função                           |
+| --------- | -------------------------------- |
+| `li`      | Carregar valor imediato          |
+| `la`      | Carregar endereço                |
+| `move`    | Copiar valor entre registradores |
+| `add`     | Soma                             |
+| `addi`    | Soma com valor imediato          |
+| `sub`     | Subtração                        |
+| `mul`     | Multiplicação                    |
+| `div`     | Divisão                          |
+| `mflo`    | Recuperar resultado da divisão   |
+| `andi`    | AND lógico com valor imediato    |
+| `beq`     | Branch se igual                  |
+| `beqz`    | Branch se igual a zero           |
+| `bgt`     | Branch se maior                  |
+| `blt`     | Branch se menor                  |
+| `bge`     | Branch se maior ou igual         |
+| `j`       | Salto incondicional              |
+| `syscall` | Chamada de sistema               |
 
 ---
 
 # 📈 Evolução dos Exercícios
 
-Os exercícios foram organizados de maneira a aumentar gradualmente a complexidade:
-
 ```text
-Entrada e saída
-      │
-      ▼
-Soma de inteiros
-      │
-      ├── Registradores
-      └── ADD
-      │
-      ▼
+Soma
+ │
+ ▼
 Multiplicação
-      │
-      └── MUL
-      │
-      ▼
-Estrutura IF
-      │
-      ├── Comparação
-      ├── BGT
-      ├── Labels
-      └── Jump
-```
-
-Inicialmente são utilizadas operações aritméticas simples.
-
-Em seguida, o controle de fluxo começa a ser explorado através da tradução de uma estrutura `if/else`.
-
----
-
-# ⚖️ C x Assembly MIPS
-
-| Característica | C                       | Assembly MIPS     |
-| -------------- | ----------------------- | ----------------- |
-| Nível          | Alto nível              | Baixo nível       |
-| Variáveis      | `int a`                 | Registradores     |
-| Entrada        | `scanf()`               | `syscall`         |
-| Saída          | `printf()`              | `syscall`         |
-| Soma           | `+`                     | `add`             |
-| Multiplicação  | `*`                     | `mul`             |
-| Condicional    | `if/else`               | Branches + labels |
-| Fluxo          | Estruturas da linguagem | Desvios e saltos  |
-
-Uma instrução simples em C pode exigir diferentes operações em Assembly.
-
-Isso permite visualizar com maior clareza o que acontece em um nível mais próximo do processador.
-
----
-
-# ▶️ Executando os Programas
-
-## C
-
-Os programas C podem ser compilados utilizando GCC.
-
-Por exemplo:
-
-```bash
-gcc soma.c -o soma
-```
-
-Execução:
-
-```bash
-./soma
-```
-
-No Windows:
-
-```powershell
-.\soma.exe
+ │
+ ▼
+IF
+ │
+ ▼
+Par ou Ímpar
+ │
+ ├── ANDI
+ │
+ └── Bits
+ │
+ ▼
+Média
+ │
+ ├── DIV
+ │
+ └── Comparação
+ │
+ ▼
+Comparadores
+ │
+ ▼
+Repetições
+ │
+ ├── Contagem
+ │
+ └── Somador
+ │
+ ▼
+Calculadora
+ │
+ ├── Menu
+ │
+ ├── Loop
+ │
+ └── Múltiplas operações
+ │
+ ▼
+Conversor
+    ├── Validação
+    ├── Múltiplos caminhos
+    └── Conversões
 ```
 
 ---
 
-## Assembly MIPS
+# 🔄 C x Assembly MIPS
 
-Os arquivos `.asm` podem ser executados utilizando o **MARS MIPS Simulator**.
+Os exercícios permitem observar equivalências importantes:
 
-### 1. Abra o arquivo
-
-```text
-File → Open
-```
-
-### 2. Monte
-
-```text
-Run → Assemble
-```
-
-ou:
-
-```text
-F3
-```
-
-### 3. Execute
-
-```text
-Run → Go
-```
-
-ou:
-
-```text
-F5
-```
-
-A entrada e a saída serão exibidas na área **Run I/O**.
-
----
-
-# 📚 Conceitos Trabalhados
-
-Até o momento, os exercícios desta pasta abordam:
-
-* tradução de C para Assembly;
-* Assembly MIPS;
-* registradores;
-* entrada e saída;
-* syscalls;
-* operações aritméticas;
-* soma;
-* multiplicação;
-* estruturas condicionais;
-* branches;
-* labels;
-* saltos;
-* fluxo de execução;
-* relação entre linguagem de alto e baixo nível.
+| C               | Assembly MIPS                 |
+| --------------- | ----------------------------- |
+| Variáveis       | Registradores / memória       |
+| `scanf()`       | Syscalls de leitura           |
+| `printf()`      | Syscalls de impressão         |
+| `+`             | `add` / `addi`                |
+| `-`             | `sub` / `addi` negativo       |
+| `*`             | `mul`                         |
+| `/`             | `div` + `mflo`                |
+| `if`            | Branches                      |
+| `else`          | Labels + jumps                |
+| `switch`        | Sequência de branches         |
+| `while` / `for` | Labels + branches + jumps     |
+| `% 2`           | Pode ser analisado com `andi` |
 
 ---
 
 # 🎯 Objetivo
 
-O objetivo desta pasta é explorar gradualmente a tradução de programas escritos em **C** para **Assembly MIPS**.
+A pasta **Explorando MIPS** funciona como ambiente de prática para compreender gradualmente como estruturas conhecidas da linguagem C podem ser representadas em Assembly.
 
-Ao manter as duas implementações lado a lado, é possível comparar como operações simples de uma linguagem de alto nível são representadas utilizando registradores, instruções, desvios e chamadas de sistema.
+A evolução dos exercícios permite passar de:
 
-Isso permite compreender melhor a relação entre **software, linguagem Assembly e arquitetura do processador**.
+```text
+Operações simples
+        │
+        ▼
+Condicionais
+        │
+        ▼
+Operações em bits
+        │
+        ▼
+Repetições
+        │
+        ▼
+Múltiplos caminhos
+        │
+        ▼
+Programas completos
+```
+
+Dessa forma, os exercícios ajudam a compreender a relação entre **linguagens de alto nível, Assembly e o funcionamento do processador**.
