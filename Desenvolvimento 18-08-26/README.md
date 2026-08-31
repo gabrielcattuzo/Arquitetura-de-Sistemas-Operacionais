@@ -1,14 +1,35 @@
-# 🔢 Entrada e Saída de Inteiro em Assembly MIPS
+# 🔢 Entrada e Saída de Inteiro em C e Assembly MIPS
 
-Programa desenvolvido em **Assembly MIPS** para demonstrar operações básicas de **entrada e saída de dados** utilizando chamadas de sistema (`syscall`).
+Programa desenvolvido em **C** e **Assembly MIPS** para demonstrar operações básicas de **entrada e saída de dados**.
 
-O programa solicita que o usuário digite um número inteiro, armazena o valor informado em um registrador e, em seguida, exibe o mesmo número na tela.
+A versão em C funciona como uma implementação de referência em linguagem de alto nível, enquanto a versão em Assembly MIPS permite observar de forma mais detalhada como a mesma lógica pode ser realizada utilizando **registradores**, **instruções** e **chamadas de sistema (`syscall`)**.
+
+O programa solicita que o usuário digite um número inteiro, armazena o valor informado e, em seguida, exibe o mesmo número na tela.
+
+---
+
+## 📂 Arquivos
+
+```text
+Desenvolvimento 18-08-26/
+│
+├── README.md
+├── eco.c
+└── eco.asm
+```
+
+| Arquivo   | Linguagem     | Descrição                                                     |
+| --------- | ------------- | ------------------------------------------------------------- |
+| `eco.c`   | C             | Implementação de referência utilizando `scanf()` e `printf()` |
+| `eco.asm` | Assembly MIPS | Implementação utilizando registradores e `syscall`            |
 
 ---
 
 ## 🎯 Objetivo
 
-O objetivo deste exercício é introduzir conceitos básicos da linguagem **Assembly MIPS**, incluindo:
+O objetivo deste exercício é introduzir conceitos básicos da linguagem **Assembly MIPS** através da comparação com uma implementação equivalente em C.
+
+Entre os conceitos trabalhados estão:
 
 * Utilização dos segmentos `.data` e `.text`;
 * Declaração e utilização de strings;
@@ -16,26 +37,103 @@ O objetivo deste exercício é introduzir conceitos básicos da linguagem **Asse
 * Entrada de números inteiros;
 * Impressão de strings e números;
 * Utilização de chamadas de sistema (`syscall`);
-* Movimentação de valores entre registradores.
+* Movimentação de valores entre registradores;
+* Comparação entre uma linguagem de alto nível e Assembly;
+* Relação entre variáveis em C e registradores em MIPS.
 
 ---
 
 ## ⚙️ Funcionamento
 
-O programa executa as seguintes etapas:
+As duas versões do programa executam essencialmente as mesmas etapas:
 
-1. Exibe uma mensagem solicitando um número inteiro.
-2. Aguarda a entrada do usuário.
-3. Armazena o número digitado no registrador `$t0`.
-4. Exibe uma mensagem de saída.
-5. Imprime o número informado pelo usuário.
-6. Encerra a execução.
+1. Exibem uma mensagem solicitando um número inteiro.
+2. Aguardam a entrada do usuário.
+3. Armazenam o número digitado.
+4. Exibem uma mensagem de saída.
+5. Imprimem o número informado pelo usuário.
+6. Encerram a execução.
+
+O fluxo lógico pode ser representado como:
+
+```text
+Entrada do usuário
+       │
+       ▼
+Solicita um número
+       │
+       ▼
+Lê o número
+       │
+       ▼
+Armazena o valor
+       │
+       ▼
+Exibe o número
+       │
+       ▼
+      Fim
+```
 
 ---
 
-## 💻 Código
+# 💻 Implementação em C
 
-```asm id="h6cpvo"
+A versão em C utiliza uma variável inteira para armazenar o valor digitado pelo usuário.
+
+## Código
+
+```c
+#include <stdio.h>
+
+int main()
+{
+    int a;
+
+    printf("Digite um numero: ");
+    scanf("%d", &a);
+
+    printf("O numero digitado foi: %d\n", a);
+
+    return 0;
+}
+```
+
+---
+
+## 🧠 Funcionamento da versão em C
+
+Inicialmente, é declarada uma variável:
+
+```c
+int a;
+```
+
+Essa variável será responsável por armazenar o número digitado.
+
+A entrada é realizada através de:
+
+```c
+scanf("%d", &a);
+```
+
+O valor é então exibido com:
+
+```c
+printf("O numero digitado foi: %d\n", a);
+```
+
+Em C, detalhes como leitura do teclado, gerenciamento de registradores e chamadas ao sistema ficam abstraídos pelas funções da biblioteca padrão.
+
+---
+
+# ⚙️ Implementação em Assembly MIPS
+
+Na versão MIPS, as operações precisam ser realizadas explicitamente através de instruções e registradores.
+
+## Código
+
+```asm
 .data
 
 entrada: .asciiz "Digite um numero: "
@@ -74,7 +172,46 @@ main:
 
 ---
 
-## 🧠 Registradores Utilizados
+# 🔄 Comparação C x Assembly MIPS
+
+Apesar de produzirem o mesmo resultado, as duas versões utilizam mecanismos diferentes.
+
+| Operação          | C          | Assembly MIPS |
+| ----------------- | ---------- | ------------- |
+| Armazenar número  | `int a`    | `$t0`         |
+| Solicitar entrada | `printf()` | `syscall 4`   |
+| Ler inteiro       | `scanf()`  | `syscall 5`   |
+| Exibir texto      | `printf()` | `syscall 4`   |
+| Exibir inteiro    | `printf()` | `syscall 1`   |
+| Encerrar          | `return 0` | `syscall 10`  |
+
+Podemos visualizar a correspondência da seguinte forma:
+
+```text
+C                                  MIPS
+
+int a;                             $t0
+  │                                 │
+  │                                 │
+scanf("%d", &a)                syscall 5
+  │                                 │
+  ▼                                 ▼
+ variável a                        $v0
+                                    │
+                                  move
+                                    │
+                                    ▼
+                                   $t0
+
+printf("%d", a)                syscall 1
+                                    │
+                                    ▼
+                                   $a0
+```
+
+---
+
+# 🧠 Registradores Utilizados
 
 Durante a execução são utilizados três registradores principais:
 
@@ -84,13 +221,15 @@ Durante a execução são utilizados três registradores principais:
 | `$a0`       | Armazena o argumento utilizado pelas chamadas de impressão       |
 | `$t0`       | Armazena temporariamente o número informado pelo usuário         |
 
-### `$v0`
+---
+
+## `$v0`
 
 O registrador `$v0` é utilizado para indicar qual chamada de sistema deve ser executada.
 
 Por exemplo:
 
-```asm id="v1rmbe"
+```asm
 li $v0, 5
 syscall
 ```
@@ -99,15 +238,33 @@ Nesse caso, o código `5` indica que o programa deve realizar a leitura de um n�
 
 Após a leitura, o valor informado pelo usuário também é retornado através de `$v0`.
 
+Isso significa que `$v0` possui duas funções importantes neste exercício:
+
+```text
+Antes da syscall
+      │
+      ▼
+Código da operação
+      │
+      ▼
+   syscall
+      │
+      ▼
+Depois da syscall
+      │
+      ▼
+Valor retornado
+```
+
 ---
 
-### `$a0`
+## `$a0`
 
 O registrador `$a0` é utilizado para passar argumentos para determinadas chamadas de sistema.
 
 Para imprimir uma string:
 
-```asm id="1n1vrx"
+```asm
 li $v0, 4
 la $a0, entrada
 syscall
@@ -117,7 +274,7 @@ O endereço da string `entrada` é carregado em `$a0`.
 
 Para imprimir um número inteiro:
 
-```asm id="26m2da"
+```asm
 li $v0, 1
 move $a0, $t0
 syscall
@@ -127,19 +284,38 @@ O número armazenado em `$t0` é copiado para `$a0` antes da chamada de sistema.
 
 ---
 
-### `$t0`
+## `$t0`
 
 O registrador `$t0` é utilizado como armazenamento temporário para preservar o número informado pelo usuário:
 
-```asm id="kclb4y"
+```asm
 move $t0, $v0
 ```
 
 Isso é necessário porque `$v0` será utilizado posteriormente para configurar outras chamadas de sistema.
 
+Sem mover o valor para outro registrador, o número informado poderia ser perdido quando `$v0` recebesse um novo código de syscall.
+
+Visualmente:
+
+```text
+Número digitado
+      │
+      ▼
+     $v0
+      │
+    move
+      │
+      ▼
+     $t0
+      │
+      ▼
+Número preservado
+```
+
 ---
 
-## 📞 Syscalls Utilizadas
+# 📞 Syscalls Utilizadas
 
 O programa utiliza quatro chamadas de sistema:
 
@@ -150,41 +326,207 @@ O programa utiliza quatro chamadas de sistema:
 |    `5` | Read Integer  | Realiza a leitura de um inteiro |
 |   `10` | Exit          | Encerra o programa              |
 
-### Impressão de String
+---
 
-```asm id="rzm0ag"
+## Impressão de String
+
+```asm
 li $v0, 4
 la $a0, entrada
 syscall
 ```
 
-### Leitura de Inteiro
+Primeiro, o código da operação é colocado em `$v0`.
 
-```asm id="v5jfg1"
+Depois, o endereço da string é carregado em `$a0`.
+
+---
+
+## Leitura de Inteiro
+
+```asm
 li $v0, 5
 syscall
 ```
 
-### Impressão de Inteiro
+Após a execução da syscall, o valor digitado fica disponível em:
 
-```asm id="2srxb3"
+```text
+$v0
+```
+
+---
+
+## Impressão de Inteiro
+
+```asm
 li $v0, 1
 move $a0, $t0
 syscall
 ```
 
-### Encerramento
+O valor que será exibido precisa estar no registrador `$a0`.
 
-```asm id="y5vubv"
+---
+
+## Encerramento
+
+```asm
 li $v0, 10
 syscall
 ```
 
+A syscall `10` encerra a execução do programa.
+
 ---
 
-## 🔄 Fluxo do Programa
+# 🗃️ Segmento `.data`
 
-```text id="mg2p4e"
+O segmento:
+
+```asm
+.data
+```
+
+é utilizado para armazenar os dados utilizados pelo programa.
+
+Neste caso:
+
+```asm
+entrada: .asciiz "Digite um numero: "
+saida:   .asciiz "Numero digitado: "
+```
+
+As duas mensagens são armazenadas na memória.
+
+---
+
+## `.asciiz`
+
+A diretiva:
+
+```asm
+.asciiz
+```
+
+é utilizada para armazenar uma sequência de caracteres terminada pelo caractere nulo.
+
+Por exemplo:
+
+```asm
+entrada: .asciiz "Digite um numero: "
+```
+
+O label:
+
+```text
+entrada
+```
+
+representa o endereço onde essa string está armazenada.
+
+---
+
+# ⚙️ Segmento `.text`
+
+O segmento:
+
+```asm
+.text
+```
+
+contém as instruções que serão executadas pelo processador.
+
+O programa também utiliza:
+
+```asm
+.globl main
+```
+
+para indicar que:
+
+```asm
+main:
+```
+
+é o ponto principal de entrada do programa.
+
+---
+
+# 🧩 Instruções Utilizadas
+
+Além das syscalls, o exercício utiliza algumas instruções fundamentais do MIPS.
+
+| Instrução | Significado    | Função                                         |
+| --------- | -------------- | ---------------------------------------------- |
+| `li`      | Load Immediate | Carrega um valor diretamente em um registrador |
+| `la`      | Load Address   | Carrega o endereço de um dado                  |
+| `move`    | Move           | Copia um valor entre registradores             |
+| `syscall` | System Call    | Solicita um serviço ao simulador               |
+
+---
+
+## `li`
+
+Exemplo:
+
+```asm
+li $v0, 4
+```
+
+Carrega o valor:
+
+```text
+4
+```
+
+diretamente em:
+
+```text
+$v0
+```
+
+---
+
+## `la`
+
+Exemplo:
+
+```asm
+la $a0, entrada
+```
+
+Carrega em `$a0` o endereço correspondente ao label `entrada`.
+
+---
+
+## `move`
+
+Exemplo:
+
+```asm
+move $t0, $v0
+```
+
+Copia o conteúdo existente em `$v0` para `$t0`.
+
+É importante perceber que:
+
+```text
+$v0
+ │
+ │ copia
+ ▼
+$t0
+```
+
+o valor original não é removido de `$v0` imediatamente; ele apenas é copiado.
+
+---
+
+# 🔄 Fluxo do Programa
+
+```text
         Início
            │
            ▼
@@ -201,14 +543,28 @@ syscall
            │
            ▼
 ┌──────────────────────┐
-│ Armazena número      │
-│ em $t0               │
+│ Valor retornado      │
+│ em $v0               │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ move $t0, $v0        │
+│                      │
+│ Salva o número       │
 └──────────┬───────────┘
            │
            ▼
 ┌──────────────────────┐
 │ Exibe "Numero        │
 │ digitado:"           │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ move $a0, $t0        │
+│                      │
+│ Prepara impressão    │
 └──────────┬───────────┘
            │
            ▼
@@ -228,83 +584,199 @@ syscall
 
 ---
 
-## 🖥️ Exemplo de Execução
+# 🖥️ Exemplo de Execução
 
-### Entrada
+## Entrada
 
-```text id="b5u0h8"
+```text
 Digite um numero: 25
 ```
 
-### Saída
+## Saída
 
-```text id="1czewp"
+```text
 Numero digitado: 25
 ```
 
 A execução completa será semelhante a:
 
-```text id="fxw46s"
+```text
 Digite um numero: 25
 Numero digitado: 25
 ```
 
 O programa também aceita números negativos:
 
-```text id="ay5sll"
+```text
 Digite um numero: -15
 Numero digitado: -15
 ```
 
 ---
 
-## ▶️ Como Executar
+# 🔍 Exemplo Passo a Passo
 
-O programa pode ser executado utilizando simuladores compatíveis com **Assembly MIPS**, como o **MARS**.
+Considerando a entrada:
 
-### 1. Abra o MARS
+```text
+25
+```
+
+podemos acompanhar os registradores.
+
+### 1. Configuração da leitura
+
+```asm
+li $v0, 5
+```
+
+Estado:
+
+```text
+$v0 = 5
+```
+
+---
+
+### 2. Usuário informa `25`
+
+```asm
+syscall
+```
+
+Agora:
+
+```text
+$v0 = 25
+```
+
+---
+
+### 3. Preservação do valor
+
+```asm
+move $t0, $v0
+```
+
+Estado:
+
+```text
+$v0 = 25
+$t0 = 25
+```
+
+---
+
+### 4. Configuração da syscall de impressão
+
+```asm
+li $v0, 1
+```
+
+Agora:
+
+```text
+$v0 = 1
+$t0 = 25
+```
+
+O valor original continua preservado em `$t0`.
+
+---
+
+### 5. Preparação do argumento
+
+```asm
+move $a0, $t0
+```
+
+Estado:
+
+```text
+$v0 = 1
+$t0 = 25
+$a0 = 25
+```
+
+---
+
+### 6. Impressão
+
+```asm
+syscall
+```
+
+Resultado:
+
+```text
+25
+```
+
+Esse exemplo demonstra por que o uso de `$t0` é necessário para preservar a entrada do usuário.
+
+---
+
+# ▶️ Como Executar
+
+O programa Assembly pode ser executado utilizando simuladores compatíveis com **MIPS**, como o **MARS**.
+
+---
+
+## 1. Abra o MARS
 
 Inicie o **MARS MIPS Simulator**.
 
-### 2. Abra o código
+---
+
+## 2. Abra o código
 
 Acesse:
 
-```text id="ybjbhq"
+```text
 File → Open
 ```
 
-Selecione o arquivo `.asm`.
+Selecione:
 
-### 3. Monte o programa
+```text
+eco.asm
+```
+
+---
+
+## 3. Monte o programa
 
 Acesse:
 
-```text id="6xz1gv"
+```text
 Run → Assemble
 ```
 
 ou pressione:
 
-```text id="kuzx7s"
+```text
 F3
 ```
 
-### 4. Execute
+---
+
+## 4. Execute
 
 Acesse:
 
-```text id="4h74qz"
+```text
 Run → Go
 ```
 
 ou pressione:
 
-```text id="4udumz"
+```text
 F5
 ```
 
-### 5. Informe um número
+---
+
+## 5. Informe um número
 
 Na área **Run I/O**, digite o número solicitado pelo programa.
 
@@ -312,34 +784,100 @@ O valor será lido, armazenado e exibido em seguida.
 
 ---
 
-## 📚 Conceitos Trabalhados
+# ▶️ Executando a versão em C
 
-Este exercício aborda conceitos fundamentais de programação em Assembly:
+A implementação em C pode ser compilada utilizando GCC.
 
+Dentro da pasta do exercício:
+
+```bash
+gcc eco.c -o eco
+```
+
+Depois:
+
+```bash
+./eco
+```
+
+No Windows:
+
+```powershell
+.\eco.exe
+```
+
+---
+
+# 📚 Conceitos Trabalhados
+
+Este exercício aborda conceitos fundamentais de programação em C e Assembly:
+
+* Linguagem C;
 * Assembly MIPS;
+* Comparação C → MIPS;
 * Registradores;
 * Segmento de dados (`.data`);
 * Segmento de código (`.text`);
 * Strings com `.asciiz`;
+* Labels;
 * Instrução `li`;
 * Instrução `la`;
 * Instrução `move`;
 * Entrada e saída;
 * Chamadas de sistema;
+* Syscalls;
 * Armazenamento temporário de dados;
-* Fluxo básico de execução de um programa.
+* Fluxo básico de execução;
+* Relação entre variáveis e registradores;
+* Relação entre software de alto nível e instruções de baixo nível.
 
 ---
 
-## 🎓 Contexto
+# 📈 Evolução do Exercício
+
+A atividade pode ser visualizada como uma transição entre duas formas de programação:
+
+```text
+Linguagem C
+     │
+     ├── int
+     ├── scanf()
+     └── printf()
+     │
+     ▼
+Mesma lógica
+     │
+     ▼
+Assembly MIPS
+     │
+     ├── Registradores
+     ├── Syscalls
+     ├── LI
+     ├── LA
+     └── MOVE
+     │
+     ▼
+Maior proximidade
+com o hardware
+```
+
+A versão em C demonstra **o que** o programa deve fazer.
+
+A versão em Assembly ajuda a compreender com maior detalhe **como** essas operações podem ser executadas.
+
+---
+
+# 🎓 Contexto
 
 Este exercício faz parte dos estudos de **Assembly MIPS** realizados durante a disciplina de **Arquitetura de Sistemas Operacionais** do curso de Engenharia de Computação.
 
-O código tem finalidade acadêmica e busca demonstrar de forma simples o funcionamento de registradores e chamadas de sistema na arquitetura MIPS.
+O código tem finalidade acadêmica e busca demonstrar de forma simples o funcionamento de entrada e saída, registradores e chamadas de sistema na arquitetura MIPS.
+
+A presença das versões `eco.c` e `eco.asm` também permite utilizar a linguagem C como referência para compreender gradualmente a tradução de estruturas de alto nível para Assembly.
 
 ---
 
-## 👨‍💻 Autor
+# 👨‍💻 Autor
 
 <div align="center">
 
