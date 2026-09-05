@@ -2,546 +2,773 @@
 
 # 🖥️ Arquitetura de Sistemas Operacionais
 
-### Estudos, exercícios e implementações em Assembly MIPS
+### Assembly MIPS • C • Arquitetura de Computadores • Programação de Baixo Nível
 
-![Assembly](https://img.shields.io/badge/Assembly-MIPS-6E4C13?style=for-the-badge\&logo=intel\&logoColor=white)
-![MARS](https://img.shields.io/badge/Simulator-MARS-orange?style=for-the-badge)
-![C](https://img.shields.io/badge/Language-C-00599C?style=for-the-badge\&logo=c\&logoColor=white)
-![Academic](https://img.shields.io/badge/Project-Academic-blue?style=for-the-badge)
-![PUC Campinas](https://img.shields.io/badge/PUC-Campinas-red?style=for-the-badge)
+Repositório acadêmico com estudos, exercícios e implementações desenvolvidos durante a disciplina de **Arquitetura de Sistemas Operacionais** do curso de Engenharia de Computação.
+
+<br>
+
+<img src="https://skillicons.dev/icons?i=c,git,github,vscode" alt="C, Git, GitHub e VS Code" />
+
+<br><br>
+
+<img src="https://img.shields.io/badge/Assembly-MIPS-6E4C13?style=for-the-badge&logo=intel&logoColor=white" alt="Assembly MIPS" />
+<img src="https://img.shields.io/badge/Simulator-MARS-F28C28?style=for-the-badge" alt="MARS" />
+<img src="https://img.shields.io/badge/PUC-Campinas-C8102E?style=for-the-badge" alt="PUC-Campinas" />
 
 </div>
 
 ---
 
-## 📖 Sobre o Repositório
+# 📚 Sobre o Repositório
 
-Este repositório reúne exercícios, atividades e implementações desenvolvidas durante a disciplina de **Arquitetura de Sistemas Operacionais** do curso de **Engenharia de Computação da PUC-Campinas**.
+Este repositório reúne exercícios, estudos e implementações desenvolvidos durante a disciplina de **Arquitetura de Sistemas Operacionais**.
 
-Os projetos são desenvolvidos principalmente utilizando **Assembly para arquitetura MIPS**, permitindo estudar na prática conceitos relacionados a registradores, memória, instruções, controle de fluxo e programação de baixo nível.
+O principal objetivo é compreender como programas escritos em linguagens de alto nível são representados e executados em níveis mais próximos do hardware.
 
-Além das atividades realizadas durante as aulas, o repositório possui a seção **Explorando MIPS**, na qual programas escritos em **C** são implementados novamente em **Assembly MIPS**.
+Para isso, diversos exercícios são implementados inicialmente em **C** e posteriormente traduzidos para **Assembly MIPS**, permitindo comparar diretamente as duas formas de programação.
 
-A comparação entre as duas linguagens permite visualizar como estruturas de alto nível, como `if`, `for`, `while` e `switch`, podem ser representadas através de registradores, branches, labels e instruções do processador.
+Essa abordagem ajuda a visualizar como elementos comuns de linguagens de alto nível são transformados em instruções executadas pelo processador.
 
----
+Entre os principais conceitos estudados estão:
 
-## 🎯 Objetivos
-
-O repositório tem como objetivo documentar e organizar os conteúdos desenvolvidos durante a disciplina, incluindo:
-
-* Arquitetura MIPS;
-* Linguagem Assembly;
-* Registradores;
-* Memória;
-* Entrada e saída;
-* Syscalls;
-* Operações aritméticas;
-* Operações lógicas;
-* Estruturas condicionais;
-* Estruturas de repetição;
-* Branches;
-* Labels;
-* Saltos;
-* Load e Store;
-* Tradução de C para Assembly;
-* Relação entre software e hardware.
-
-> O repositório será atualizado conforme novos conteúdos forem estudados durante a disciplina.
+* arquitetura de computadores;
+* linguagem Assembly MIPS;
+* linguagem C;
+* registradores;
+* memória;
+* instruções do processador;
+* operações aritméticas;
+* entrada e saída;
+* chamadas de sistema;
+* estruturas condicionais;
+* loops;
+* branches;
+* jumps;
+* acesso à memória;
+* vetores;
+* tradução de C para Assembly;
+* programação de baixo nível.
 
 ---
 
-## 🛠️ Tecnologias e Ferramentas
+# 🎯 Objetivo
+
+O principal objetivo deste repositório é estudar a relação entre **software e hardware**.
+
+Em linguagens como C, diversas operações são abstraídas pela própria linguagem e pelo compilador.
+
+Por exemplo:
+
+```c id="18ndgv"
+if (a > b) {
+    resultado = a + b;
+}
+```
+
+Em Assembly, essa mesma lógica precisa ser construída utilizando explicitamente:
+
+```text id="v3b8n6"
+registradores
+     ↓
+comparações
+     ↓
+branches
+     ↓
+operações aritméticas
+     ↓
+movimentação de dados
+```
+
+Dessa forma, é possível compreender com maior clareza como estruturas escritas em uma linguagem de alto nível são transformadas em operações executadas pelo processador.
+
+---
+
+# 🛠️ Tecnologias e Ferramentas
 
 <div align="center">
 
-![Assembly](https://img.shields.io/badge/Assembly-MIPS-6E4C13?style=for-the-badge\&logo=intel\&logoColor=white)
-![C](https://img.shields.io/badge/C-00599C?style=for-the-badge\&logo=c\&logoColor=white)
-![MARS](https://img.shields.io/badge/MARS-MIPS%20Simulator-orange?style=for-the-badge)
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge\&logo=git\&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge\&logo=github\&logoColor=white)
+### Linguagens
+
+<img src="https://skillicons.dev/icons?i=c" alt="C" />
+
+<br><br>
+
+<img src="https://img.shields.io/badge/Assembly-MIPS-6E4C13?style=for-the-badge&logo=intel&logoColor=white" alt="Assembly MIPS" />
+
+### Ferramentas
+
+<img src="https://skillicons.dev/icons?i=git,github,vscode" alt="Git, GitHub e VS Code" />
+
+<br><br>
+
+<img src="https://img.shields.io/badge/MARS-MIPS%20Simulator-F28C28?style=for-the-badge" alt="MARS MIPS Simulator" />
 
 </div>
 
-### Assembly MIPS
+---
 
-Utilizado para estudar programação de baixo nível, registradores, memória, instruções e fluxo de execução.
+## 🔵 Linguagem C
 
-### C
+A linguagem **C** é utilizada como referência para a implementação inicial dos algoritmos.
 
-Utilizada como linguagem de referência em diversos exercícios antes da implementação equivalente em Assembly.
+Ela permite representar de forma mais simples estruturas como:
 
-### MARS
+```c id="kyfaii"
+if
+else
+for
+while
+switch
+variáveis
+vetores
+funções
+```
 
-O **MARS (MIPS Assembler and Runtime Simulator)** é utilizado para montar, executar e analisar os programas desenvolvidos em MIPS.
+A partir dessas implementações, os programas podem ser traduzidos para Assembly e comparados com suas versões de alto nível.
 
 ---
 
-# 📂 Organização do Repositório
+## 🟤 Assembly MIPS
 
-```text
-Arquitetura-de-Sistemas-Operacionais/
-│
-├── README.md
-├── .gitignore
-│
-├── Desenvolvimento 18-08-26/
-│   ├── README.md
-│   ├── eco.c
-│   └── eco.asm
-│
-├── Desenvolvimento 25-08-26/
-│   ├── README.md
-│   ├── teste.asm
-│   │
-│   ├── Abordagem 1/
-│   │   ├── adivinhar_numero.c
-│   │   └── adivinhar_numero.asm
-│   │
-│   └── Abordagem 2/
-│       └── adivinhar_numero.asm
-│
-└── Explorando MIPS/
-    ├── README.md
-    │
-    ├── Tradução Soma/
-    ├── Tradução Multiplicação/
-    ├── Tradução IF/
-    ├── Par ou Impar/
-    ├── Media/
-    ├── Comparador/
-    ├── Comparador2/
-    ├── Contagem/
-    ├── Somador/
-    ├── Calculadora/
-    └── Conversor/
-```
+O **Assembly MIPS** é utilizado para estudar diretamente o funcionamento das instruções executadas pelo processador.
 
----
+Durante os exercícios são utilizados conceitos como:
 
-# 📚 Atividades da Disciplina
+* registradores;
+* operações aritméticas;
+* transferência de dados;
+* branches;
+* jumps;
+* acesso à memória;
+* chamadas de sistema;
+* labels;
+* controle de fluxo.
 
-## 📅 Desenvolvimento — 18/08/2026
+Algumas instruções utilizadas incluem:
 
-A atividade introduz conceitos fundamentais de **entrada e saída em Assembly MIPS**.
+```asm id="r4u51y"
+li
+la
+move
 
-Foram mantidas duas versões do mesmo programa:
-
-```text
-eco.c
-eco.asm
-```
-
-O programa solicita um número inteiro e posteriormente exibe o mesmo valor.
-
-### Fluxo
-
-```text
-Entrada
-   │
-   ▼
-Lê um inteiro
-   │
-   ▼
-Armazena o valor
-   │
-   ▼
-Exibe o valor
-   │
-   ▼
-Fim
-```
-
-Na implementação MIPS, o exercício introduz:
-
-* `.data`;
-* `.text`;
-* `.asciiz`;
-* `$v0`;
-* `$a0`;
-* `$t0`;
-* `li`;
-* `la`;
-* `move`;
-* `syscall`.
-
----
-
-## 📅 Desenvolvimento — 25/08/2026
-
-A atividade seguinte avança para **controle de fluxo, repetição e acesso à memória**.
-
-Foram desenvolvidas duas abordagens para um programa no qual um número é informado inicialmente e o usuário deve continuar tentando até inserir o mesmo valor.
-
-### Abordagem 1 — Registrador
-
-O número inicial é armazenado diretamente em um registrador:
-
-```asm
-move $t0, $v0
-```
-
-O programa utiliza um loop e compara cada nova tentativa:
-
-```asm
-beq $v0, $t0, acertou
-j loop
-```
-
-Fluxo:
-
-```text
-Número inicial
-      │
-      ▼
-     $t0
-      │
-      ▼
-Nova tentativa
-      │
-      ▼
-É igual?
-  /       \
-Sim       Não
- │         │
- ▼         └──► tenta novamente
-Acertou
-```
-
-### Abordagem 2 — Memória
-
-Na segunda abordagem, o número é armazenado na memória utilizando:
-
-```asm
-sb $s0, numero
-```
-
-e recuperado posteriormente através de:
-
-```asm
-lb $s1, numero
-```
-
-Isso permite comparar duas formas de preservar dados:
-
-```text
-Abordagem 1              Abordagem 2
-
-Registrador              Memória
-    │                       │
-   $t0                 numero: .byte
-    │                       │
-   BEQ                  SB / LB
-```
-
-A atividade também possui `teste.asm`, utilizado para observar o funcionamento da instrução `j` e dos labels.
-
----
-
-# 🔬 Explorando MIPS
-
-A pasta **Explorando MIPS** contém exercícios adicionais utilizados para praticar a tradução de programas em C para Assembly MIPS.
-
-Atualmente estão presentes:
-
-| Exercício              |  C  | MIPS | Principal conceito     |
-| ---------------------- | :-: | :--: | ---------------------- |
-| Tradução Soma          |  ✅  |   ✅  | `add`                  |
-| Tradução Multiplicação |  ✅  |   ✅  | `mul`                  |
-| Tradução IF            |  ✅  |   ✅  | `bgt`, `j`             |
-| Par ou Ímpar           |  ✅  |   ✅  | `andi`, `beqz`         |
-| Média                  |  ✅  |   ✅  | `div`, `mflo`, `bge`   |
-| Comparador             |  ✅  |   ✅  | `beq`, `bgt`           |
-| Comparador 2           |  ✅  |   —  | Condicionais e empates |
-| Contagem               |  ✅  |   ⏳  | Estrutura de repetição |
-| Somador                |  ✅  |   ⏳  | Acumulador e repetição |
-| Calculadora            |  ✅  |   ✅  | Menu, operações e loop |
-| Conversor              |  ✅  |   ✅  | Branches e conversões  |
-
-> Os arquivos MIPS de **Contagem** e **Somador** ainda estão vazios na versão atual do repositório.
-
----
-
-# 🧠 Conceitos Estudados
-
-## Registradores
-
-Os programas utilizam diferentes registradores MIPS:
-
-| Registrador | Utilização                               |
-| ----------- | ---------------------------------------- |
-| `$zero`     | Valor constante zero                     |
-| `$v0`       | Syscalls e valores retornados            |
-| `$a0`       | Argumentos para syscalls                 |
-| `$t0-$t5`   | Valores temporários                      |
-| `$s0-$s1`   | Valores preservados em alguns exercícios |
-
----
-
-## 📞 Syscalls
-
-As principais syscalls utilizadas são:
-
-| `$v0` | Operação          |
-| ----: | ----------------- |
-|   `1` | Imprimir inteiro  |
-|   `4` | Imprimir string   |
-|   `5` | Ler inteiro       |
-|  `10` | Encerrar programa |
-
-Exemplo:
-
-```asm
-li $v0, 5
-syscall
-move $t0, $v0
-```
-
----
-
-## 🔀 Controle de Fluxo
-
-Estruturas como:
-
-```c
-if (a > b)
-```
-
-podem ser representadas através de branches:
-
-```asm
-bgt $t0, $t1, primeiroMaior
-```
-
-Também são utilizadas instruções como:
-
-```asm
-beq
-bgt
-blt
-bge
-beqz
-j
-```
-
----
-
-## 💾 Memória
-
-A atividade de 25/08 introduz explicitamente armazenamento e leitura da memória:
-
-```asm
-sb $s0, numero
-lb $s1, numero
-```
-
-Isso permite observar a diferença entre manter um valor em um **registrador** e armazená-lo na **memória**.
-
----
-
-## 🧮 Operações Aritméticas
-
-Entre as instruções utilizadas nos exercícios estão:
-
-```asm
 add
 addi
 sub
 mul
 div
-mflo
-```
 
-Essas operações são utilizadas em programas cada vez mais completos, como a calculadora e o conversor de temperaturas.
+beq
+bne
+
+j
+
+lw
+sw
+lb
+sb
+
+syscall
+```
 
 ---
 
-## 🔢 Operações Lógicas
+## 🟠 MARS
 
-O exercício de par ou ímpar utiliza:
+O **MARS — MIPS Assembler and Runtime Simulator** é utilizado para montar e executar os códigos Assembly presentes no repositório.
 
-```asm
-andi $t1, $t0, 1
-```
+A ferramenta permite acompanhar a execução do programa e analisar:
 
-para analisar o bit menos significativo do número.
+* registradores;
+* memória;
+* instruções;
+* valores armazenados;
+* execução passo a passo;
+* chamadas de sistema.
 
-```text
-Último bit = 0 → Par
-Último bit = 1 → Ímpar
-```
-
-Isso demonstra como operações em nível de bits podem substituir determinadas operações aritméticas.
+Isso é especialmente útil para compreender como cada instrução modifica o estado do processador durante a execução.
 
 ---
 
-# 🔄 C → Assembly MIPS
+# 📂 Organização do Repositório
 
-Um dos principais objetivos dos exercícios é visualizar a tradução:
+O repositório é dividido em pastas correspondentes aos exercícios e etapas de desenvolvimento realizadas durante a disciplina.
 
-```text
-C
+```text id="6h5n7c"
+Arquitetura-de-Sistemas-Operacionais/
 │
-├── Variáveis
-├── Operadores
-├── if / else
-├── switch
-├── while / for
-├── scanf()
-└── printf()
-        │
-        ▼
-Assembly MIPS
+├── Explorando MIPS/
+│   ├── README.md
+│   ├── programas em C
+│   └── programas em Assembly MIPS
 │
-├── Registradores
-├── ADD / SUB / MUL / DIV
-├── Branches
-├── Labels
-├── Jumps
-└── Syscalls
-        │
-        ▼
-Processador
+├── Desenvolvimento 18-08-26/
+│   ├── README.md
+│   ├── código em C
+│   └── código em Assembly MIPS
+│
+├── Desenvolvimento 25-08-26/
+│   ├── README.md
+│   ├── código em C
+│   └── código em Assembly MIPS
+│
+├── .gitignore
+└── README.md
 ```
+
+Cada pasta possui seu próprio `README.md` com informações específicas sobre os exercícios desenvolvidos naquela etapa.
+
+---
+
+# 🧭 Conteúdo do Repositório
+
+## 🔬 Explorando MIPS
+
+📁 [`Explorando MIPS`](./Explorando%20MIPS/README.md)
+
+Esta pasta reúne uma sequência de exercícios desenvolvidos para praticar a tradução de programas escritos em C para **Assembly MIPS**.
+
+Os exercícios evoluem gradualmente em complexidade.
+
+Entre os conteúdos abordados estão:
+
+* operações matemáticas;
+* leitura de valores;
+* impressão de resultados;
+* condicionais;
+* comparações;
+* loops;
+* menus;
+* vetores;
+* diferentes caminhos de execução;
+* manipulação de registradores.
+
+A proposta é observar como estruturas relativamente simples em C precisam ser construídas utilizando instruções específicas em Assembly.
+
+---
+
+## 🔢 Desenvolvimento — 18/08/2026
+
+📁 [`Desenvolvimento 18-08-26`](./Desenvolvimento%2018-08-26/README.md)
+
+Atividade introdutória focada em **entrada e saída de dados**.
+
+O programa foi desenvolvido tanto em C quanto em Assembly MIPS para permitir uma comparação direta entre as duas linguagens.
+
+Entre os conceitos utilizados estão:
+
+* entrada de dados;
+* saída de dados;
+* registradores;
+* movimentação de valores;
+* chamadas de sistema;
+* execução de instruções MIPS.
+
+---
+
+## 🎯 Desenvolvimento — 25/08/2026
+
+📁 [`Desenvolvimento 25-08-26`](./Desenvolvimento%2025-08-26/README.md)
+
+Atividade voltada para conceitos mais avançados de controle de fluxo e manipulação de dados.
+
+São estudados:
+
+* loops;
+* branches;
+* jumps;
+* registradores;
+* memória;
+* armazenamento de valores;
+* leitura de valores armazenados.
+
+Um dos pontos principais do exercício é comparar duas formas de preservar informações durante a execução:
+
+```text id="v7vb26"
+Registrador             Memória
+    │                      │
+    ▼                      ▼
+ valor em $s0        endereço de memória
+                           │
+                           ▼
+                        sb / lb
+```
+
+Essa comparação ajuda a visualizar a diferença entre dados mantidos diretamente nos registradores do processador e dados armazenados na memória.
+
+---
+
+# 🧠 Conceitos Estudados
+
+## 🧮 Registradores
+
+Os registradores são pequenas áreas de armazenamento localizadas diretamente no processador.
+
+Eles permitem acesso extremamente rápido aos valores utilizados durante a execução.
+
+No MIPS existem diferentes grupos de registradores.
+
+### Registradores temporários
+
+```asm id="jn01ab"
+$t0
+$t1
+$t2
+$t3
+...
+```
+
+São normalmente utilizados para valores temporários durante cálculos e operações.
+
+---
+
+### Registradores salvos
+
+```asm id="99r8ax"
+$s0
+$s1
+$s2
+...
+```
+
+São utilizados quando um valor precisa ser preservado por mais tempo durante a execução.
+
+---
+
+### Registradores de argumentos
+
+```asm id="k9yvx4"
+$a0
+$a1
+$a2
+$a3
+```
+
+São utilizados para passagem de argumentos.
+
+O registrador `$a0`, por exemplo, também é frequentemente utilizado nas `syscalls` de impressão.
+
+---
+
+### Registrador `$v0`
+
+O registrador:
+
+```asm id="18dm21"
+$v0
+```
+
+é utilizado para valores de retorno e também para informar ao sistema qual **syscall** deverá ser executada.
+
+---
+
+# 💾 Memória
+
+Nem todos os dados precisam permanecer nos registradores.
+
+O programa também pode armazenar informações na memória.
+
+Em MIPS, instruções de load e store são utilizadas para realizar a comunicação entre memória e registradores.
+
+Exemplos:
+
+```asm id="24ohzd"
+lw
+sw
+lb
+sb
+```
+
+Onde:
+
+| Instrução | Função     |
+| --------- | ---------- |
+| `lw`      | Load Word  |
+| `sw`      | Store Word |
+| `lb`      | Load Byte  |
+| `sb`      | Store Byte |
 
 Por exemplo:
 
-```c
+```asm id="juxah6"
+sb $t0, 0($t1)
+```
+
+armazena um byte presente em `$t0` no endereço de memória apontado por `$t1`.
+
+Para recuperar esse valor:
+
+```asm id="fzhjz7"
+lb $t2, 0($t1)
+```
+
+---
+
+# 🔀 Controle de Fluxo
+
+Em C, estruturas de decisão podem ser escritas diretamente:
+
+```c id="7otstf"
+if (a == b) {
+    printf("Valores iguais");
+}
+```
+
+Em Assembly, é necessário utilizar uma comparação e um branch.
+
+Exemplo:
+
+```asm id="qxvii0"
+beq $t0, $t1, valores_iguais
+```
+
+Caso os valores armazenados nos registradores sejam iguais, a execução é desviada para:
+
+```asm id="jqt8ve"
+valores_iguais:
+```
+
+---
+
+# 🔁 Loops
+
+Loops também precisam ser construídos utilizando labels, branches e jumps.
+
+Um loop simples em C:
+
+```c id="ug20rx"
+for (int i = 0; i < 10; i++) {
+    printf("%d", i);
+}
+```
+
+pode ser representado em Assembly utilizando uma estrutura semelhante a:
+
+```asm id="03vd5y"
+li $t0, 0
+
+loop:
+
+    # corpo do loop
+
+    addi $t0, $t0, 1
+
+    # comparação
+
+    j loop
+```
+
+O controle da repetição passa a ser realizado explicitamente pelo programa.
+
+---
+
+# 🖨️ Syscalls
+
+Em Assembly MIPS, operações de entrada e saída podem ser realizadas utilizando **syscalls**.
+
+O registrador `$v0` informa qual operação deverá ser executada.
+
+---
+
+## Imprimir inteiro
+
+```asm id="m7i1sk"
+li $v0, 1
+move $a0, $t0
+syscall
+```
+
+---
+
+## Imprimir string
+
+```asm id="a9llv5"
+li $v0, 4
+la $a0, mensagem
+syscall
+```
+
+---
+
+## Ler inteiro
+
+```asm id="y69qxp"
+li $v0, 5
+syscall
+
+move $t0, $v0
+```
+
+---
+
+## Encerrar programa
+
+```asm id="jol7i7"
+li $v0, 10
+syscall
+```
+
+---
+
+# 🔄 Comparação entre C e Assembly
+
+Uma das principais propostas deste repositório é comparar diretamente as duas linguagens.
+
+## Operação aritmética
+
+### C
+
+```c id="1g8vcp"
 resultado = a + b;
 ```
 
-pode ser representado como:
+### Assembly MIPS
 
-```asm
+```asm id="7v3f9n"
 add $t2, $t0, $t1
 ```
 
-Já uma estrutura:
+---
 
-```c
-if (a == b)
+## Incremento
+
+### C
+
+```c id="pgsnuc"
+i++;
 ```
 
-pode ser representada através de:
+### Assembly MIPS
 
-```asm
+```asm id="afkmhd"
+addi $t0, $t0, 1
+```
+
+---
+
+## Condicional
+
+### C
+
+```c id="p11f23"
+if (a == b) {
+    resultado = 1;
+}
+```
+
+### Assembly MIPS
+
+```asm id="ypmzj8"
 beq $t0, $t1, iguais
+
+iguais:
+    li $t2, 1
 ```
 
 ---
 
-# 📈 Evolução dos Estudos
+## Loop
 
-```text
-Arquitetura de Sistemas Operacionais
-│
-├── 18/08/2026
-│   └── Entrada e saída
-│       ├── Registradores
-│       ├── Syscalls
-│       └── MOVE
-│
-├── Explorando MIPS
-│   ├── Operações aritméticas
-│   ├── Condicionais
-│   ├── Operações lógicas
-│   ├── Comparações
-│   ├── Repetições
-│   ├── Menus
-│   └── Conversões
-│
-└── 25/08/2026
-    ├── Labels
-    ├── Jump
-    ├── Loop
-    ├── BEQ
-    ├── Registradores
-    └── Memória
-        ├── SB
-        └── LB
+### C
+
+```c id="i09cfw"
+while (i < 10) {
+    i++;
+}
 ```
+
+### Assembly MIPS
+
+```asm id="jn3fui"
+loop:
+
+    # verifica condição
+
+    addi $t0, $t0, 1
+
+    j loop
+```
+
+Essas comparações ajudam a compreender o trabalho realizado pelo compilador ao transformar código de alto nível em instruções de máquina.
 
 ---
 
-# ▶️ Executando os Programas
+# 🧩 Fluxo de Execução
 
-## Assembly MIPS
+De forma simplificada, os exercícios seguem a seguinte relação:
 
-Os arquivos `.asm` podem ser executados utilizando o **MARS MIPS Simulator**.
-
-### Montar
-
-```text
-Run → Assemble
+```text id="z8qvm5"
+        Código em C
+             │
+             ▼
+     Estruturas de alto nível
+             │
+             ▼
+      Tradução da lógica
+             │
+             ▼
+      Assembly MIPS
+             │
+             ▼
+       Instruções MIPS
+             │
+             ▼
+        Registradores
+        /          \
+       ▼            ▼
+    Memória      Operações
+       \            /
+        \          /
+             ▼
+          Resultado
 ```
 
-ou:
-
-```text
-F3
-```
-
-### Executar
-
-```text
-Run → Go
-```
-
-ou:
-
-```text
-F5
-```
+O objetivo não é apenas obter o mesmo resultado nas duas linguagens, mas entender **como esse resultado é produzido em um nível mais próximo do hardware**.
 
 ---
+
+# ▶️ Como Executar
 
 ## C
 
-Os arquivos `.c` podem ser compilados utilizando GCC:
+Para compilar os arquivos escritos em C utilizando GCC:
 
-```bash
-gcc arquivo.c -o programa
+```bash id="e5wmpg"
+gcc programa.c -o programa
 ```
 
-E executados com:
+Depois:
 
-```bash
+### Linux
+
+```bash id="edrtmq"
 ./programa
 ```
 
-No Windows:
+### Windows
 
-```powershell
-.\programa.exe
+```bash id="l9b97r"
+programa.exe
 ```
 
 ---
 
-# 🎓 Contexto Acadêmico
+## Assembly MIPS
 
-Este repositório faz parte dos estudos da disciplina de **Arquitetura de Sistemas Operacionais** do curso de **Engenharia de Computação da PUC-Campinas**.
+Os arquivos `.asm` podem ser executados utilizando o **MARS**.
 
-O objetivo é registrar a evolução das atividades e servir como material de consulta para os conceitos estudados.
+Fluxo básico:
+
+```text id="25gh6u"
+Abrir arquivo .asm
+        │
+        ▼
+     Assemble
+        │
+        ▼
+       Run
+        │
+        ▼
+Analisar execução
+        │
+        ├── Registradores
+        ├── Memória
+        └── Console
+```
+
+Também é possível utilizar a execução passo a passo para observar cada instrução individualmente.
 
 ---
 
-# ⚠️ Finalidade
+# 📈 Evolução dos Exercícios
+
+Os exercícios do repositório seguem uma progressão de dificuldade.
+
+```text id="5u20ue"
+Operações básicas
+       │
+       ▼
+Entrada e saída
+       │
+       ▼
+Registradores
+       │
+       ▼
+Condicionais
+       │
+       ▼
+Branches
+       │
+       ▼
+Loops
+       │
+       ▼
+Memória
+       │
+       ▼
+Vetores
+       │
+       ▼
+Programas mais complexos
+```
+
+Essa progressão permite construir gradualmente uma compreensão mais completa sobre a arquitetura e a programação em baixo nível.
+
+---
+
+# 📚 Finalidade Acadêmica
 
 Este repositório possui finalidade **acadêmica e educacional**.
 
-Os códigos representam exercícios e implementações desenvolvidos durante o aprendizado de arquitetura de computadores, sistemas operacionais e programação em Assembly MIPS.
+Ele funciona como:
+
+* registro dos exercícios realizados;
+* documentação dos conteúdos estudados;
+* material de revisão;
+* demonstração da evolução em Assembly MIPS;
+* comparação prática entre C e Assembly;
+* referência para estudos de arquitetura de computadores.
 
 ---
 
-# 👨‍💻 Autor
+# 🚀 Próximos Conteúdos
+
+Conforme o avanço da disciplina, o repositório poderá receber implementações envolvendo:
+
+* stack;
+* funções;
+* procedimentos;
+* passagem de parâmetros;
+* manipulação avançada de memória;
+* arrays;
+* representação de dados;
+* arquitetura do processador;
+* interrupções;
+* entrada e saída;
+* interação entre software e hardware.
+
+---
 
 <div align="center">
 
+## 👨‍💻 Autor
+
 ### Gabriel Cattuzo
 
-Computer Engineering Student at **PUC-Campinas**
+Computer Engineering Student — **PUC-Campinas**
 
-[![GitHub](https://img.shields.io/badge/GitHub-gabrielcattuzo-181717?style=for-the-badge\&logo=github\&logoColor=white)](https://github.com/gabrielcattuzo)
-[![Website](https://img.shields.io/badge/Website-cattuzo.com-4285F4?style=for-the-badge\&logo=google-chrome\&logoColor=white)](https://cattuzo.com)
+<br>
+
+<a href="https://cattuzo.com">
+  <img src="https://img.shields.io/badge/Portfolio-cattuzo.com-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Portfolio" />
+</a>
+
+<a href="https://github.com/gabrielcattuzo">
+  <img src="https://img.shields.io/badge/GitHub-gabrielcattuzo-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
+</a>
+
+<a href="https://br.linkedin.com/in/gabrielcattuzo">
+  <img src="https://img.shields.io/badge/LinkedIn-Gabriel%20Cattuzo-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
+</a>
 
 </div>

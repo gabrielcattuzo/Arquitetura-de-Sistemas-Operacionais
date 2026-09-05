@@ -1,508 +1,625 @@
-# 🎯 Desenvolvimento — 25/08/2026
+<div align="center">
 
-## Controle de Fluxo, Loops e Memória em Assembly MIPS
+# 🎯 Controle de Fluxo, Loops e Memória em MIPS
 
-Nesta atividade foram explorados conceitos de **controle de fluxo e armazenamento de dados em Assembly MIPS**.
+### Desenvolvimento — 25/08/2026
 
-O exercício principal consiste em armazenar um número informado pelo usuário e solicitar novas tentativas até que o mesmo número seja digitado novamente.
+Estudo de **jumps, loops, branches, registradores e acesso à memória** utilizando C e Assembly MIPS.
 
-Foram desenvolvidas duas abordagens para o problema:
+<br>
 
-1. armazenamento utilizando **registrador**;
-2. armazenamento utilizando **memória**.
+<img src="https://skillicons.dev/icons?i=c" alt="C" />
 
-Também foi utilizado um programa simples para demonstrar o funcionamento da instrução de salto `j`.
+<br><br>
 
----
+<img src="https://img.shields.io/badge/Assembly-MIPS-6E4C13?style=for-the-badge&logo=intel&logoColor=white" alt="Assembly MIPS" />
+<img src="https://img.shields.io/badge/Simulator-MARS-F28C28?style=for-the-badge" alt="MARS" />
 
-# 📂 Estrutura
-
-```text
-Desenvolvimento 25-08-26/
-│
-├── README.md
-├── teste.asm
-│
-├── Abordagem 1/
-│   ├── adivinhar_numero.c
-│   └── adivinhar_numero.asm
-│
-└── Abordagem 2/
-    └── adivinhar_numero.asm
-```
+</div>
 
 ---
 
-# 🧪 `teste.asm` — Jump e Labels
+## 📖 Sobre a Atividade
 
-O arquivo `teste.asm` apresenta um exemplo simples do funcionamento da instrução:
+Esta atividade dá continuidade aos conceitos introdutórios de Assembly MIPS e passa a explorar mecanismos utilizados para controlar de forma mais complexa o fluxo de execução de um programa.
 
-```asm
-j
+Entre os principais conteúdos estão:
+
+* labels;
+* jumps;
+* branches;
+* loops;
+* comparação entre valores;
+* registradores;
+* armazenamento em memória;
+* leitura da memória;
+* diferenças entre registradores e memória.
+
+Um dos pontos centrais da atividade é comparar duas formas de preservar um determinado valor durante a execução:
+
+1. manter o valor em um **registrador**;
+2. armazenar o valor explicitamente na **memória**.
+
+> [← Voltar ao README principal](../README.md)
+
+---
+
+# 🎯 Objetivos
+
+A atividade busca desenvolver a compreensão sobre:
+
+* controle de fluxo em Assembly;
+* implementação de estruturas de repetição;
+* funcionamento de jumps;
+* funcionamento de branches;
+* utilização de labels;
+* armazenamento de dados;
+* acesso à memória;
+* diferença entre registradores temporários e salvos;
+* instruções `sb` e `lb`.
+
+---
+
+# 🔀 Controle de Fluxo
+
+Em linguagens de alto nível, estruturas de controle são representadas diretamente.
+
+Exemplo:
+
+```c id="ayuf1q"
+if (opcao == 1) {
+    // operação
+}
 ```
 
-O programa possui uma mensagem:
+Em Assembly MIPS, o fluxo precisa ser controlado utilizando instruções específicas.
 
-```asm
-minha_mensagem: .asciiz "Hello World!"
+Por exemplo:
+
+```asm id="1ou1nc"
+beq $t0, $t1, opcao_um
 ```
 
-mas executa:
+Caso os valores sejam iguais, a execução salta para:
 
-```asm
-j fim
+```asm id="qsmjln"
+opcao_um:
 ```
-
-antes das instruções responsáveis por imprimi-la.
-
-Portanto:
-
-```text
-main
- │
- ▼
-j fim ───────────────────────┐
- │                           │
- │  instruções de impressão │
- │  são ignoradas           │
- │                           │
- └──────────────────────────►fim
-                              │
-                              ▼
-                         syscall 10
-```
-
-A mensagem não é exibida porque `j fim` altera diretamente o fluxo de execução.
 
 ---
 
 # 🏷️ Labels
 
-Labels identificam posições dentro do programa.
+Labels representam posições no código que podem ser utilizadas como destino de branches ou jumps.
 
-No exercício aparecem:
+Exemplo:
 
-```asm
-main:
+```asm id="0rf0g9"
+inicio:
+
+    # instruções
+
+    j inicio
 ```
 
-e:
+Nesse caso, a instrução:
 
-```asm
-fim:
+```asm id="zyz2s1"
+j inicio
 ```
+
+faz com que a execução retorne ao label `inicio`.
+
+---
+
+# ↪️ Jumps
 
 A instrução:
 
-```asm
-j fim
+```asm id="5ddksk"
+j
 ```
 
-faz o processador continuar a execução a partir do label `fim`.
+realiza um salto incondicional.
 
-Isso permite implementar estruturas de controle de fluxo.
+Exemplo:
+
+```asm id="hfd6u9"
+j menu
+```
+
+Isso significa que a execução continua diretamente a partir do label:
+
+```asm id="yr0dt5"
+menu:
+```
+
+Essa instrução pode ser utilizada para construir menus, loops e diferentes caminhos de execução.
 
 ---
 
-# 🎮 Programa de Adivinhação
+# 🔀 Branches
 
-O exercício principal solicita inicialmente um número ao usuário.
+Branches realizam desvios condicionais.
 
-Depois disso, novas tentativas são solicitadas até que o usuário informe novamente o mesmo valor.
+Algumas instruções utilizadas são:
 
-A lógica geral é:
-
-```text
-           Número inicial
-                 │
-                 ▼
-            Armazena
-                 │
-                 ▼
-        ┌── Nova tentativa ◄────┐
-        │                       │
-        ▼                       │
-   Número é igual?              │
-      /      \                  │
-    Sim      Não ───────────────┘
-     │
-     ▼
-  Acertou
-     │
-     ▼
-    Fim
+```asm id="9k8shg"
+beq
+bne
 ```
 
----
+## `beq`
 
-# 1️⃣ Abordagem 1 — Registrador
-
-Na primeira abordagem, o valor informado inicialmente é armazenado diretamente em:
-
-```asm
-$t0
+```asm id="ntrf3s"
+beq $t0, $t1, iguais
 ```
 
-através de:
+Executa o branch caso:
 
-```asm
-move $t0, $v0
-```
-
-Portanto:
-
-```text
-Usuário
-   │
-   ▼
-syscall 5
-   │
-   ▼
-  $v0
-   │
-  move
-   │
-   ▼
-  $t0
-```
-
-O registrador `$t0` mantém o número que deverá ser comparado com as próximas tentativas.
-
----
-
-## 🔁 Loop
-
-O programa possui o label:
-
-```asm
-loop:
-```
-
-A cada tentativa, um novo inteiro é lido:
-
-```asm
-li $v0, 5
-syscall
-```
-
-Depois é realizada a comparação:
-
-```asm
-beq $v0, $t0, acertou
-```
-
-Se os valores forem diferentes:
-
-```asm
-j loop
-```
-
-faz o programa voltar para o início do processo.
-
----
-
-# 🔀 `beq`
-
-A instrução:
-
-```asm
-beq $v0, $t0, acertou
-```
-
-significa:
-
-```text
-$v0 == $t0 ?
-    /     \
-  Sim     Não
-   │       │
-   ▼       ▼
-acertou   loop
-```
-
-`beq` significa **Branch if Equal**.
-
-Caso os dois registradores possuam o mesmo valor, a execução continua no label:
-
-```asm
-acertou:
+```text id="f9o04h"
+$t0 == $t1
 ```
 
 ---
 
-# 🔄 Comparação com C
+## `bne`
 
-A mesma lógica foi implementada em `adivinhar_numero.c`.
-
-Em C:
-
-```c
-while (1)
-{
-    scanf("%d", &b);
-
-    if (b == a)
-    {
-        break;
-    }
-}
+```asm id="4q9f47"
+bne $t0, $t1, diferentes
 ```
 
-Em MIPS, a estrutura é representada por:
+Executa o branch caso:
 
-```asm
+```text id="4i37de"
+$t0 != $t1
+```
+
+---
+
+# 🔁 Loops
+
+Loops em Assembly podem ser construídos combinando:
+
+```text id="um3rb5"
+Label
+  │
+  ▼
+Instruções
+  │
+  ▼
+Comparação
+  │
+  ▼
+Branch / Jump
+  │
+  └───────────────┐
+                  ▼
+                Label
+```
+
+Por exemplo:
+
+```asm id="ym2b72"
+li $t0, 0
+
 loop:
 
-    li $v0, 5
-    syscall
-
-    beq $v0, $t0, acertou
+    addi $t0, $t0, 1
 
     j loop
 ```
 
-Assim:
-
-| C             | MIPS                  |
-| ------------- | --------------------- |
-| `while`       | label + `j`           |
-| `if (b == a)` | `beq`                 |
-| `break`       | desvio para `acertou` |
-| variável `a`  | `$t0`                 |
+Em uma implementação completa, uma condição é utilizada para determinar quando o loop deverá terminar.
 
 ---
 
-# 2️⃣ Abordagem 2 — Memória
+# 🧠 Registradores Temporários
 
-Na segunda abordagem, o valor inicial não permanece apenas em um registrador.
+Registradores como:
 
-É criada uma posição na memória:
-
-```asm
-numero: .byte 1
+```asm id="3d57yu"
+$t0
+$t1
+$t2
 ```
 
-Depois da leitura, o número é armazenado através de:
+são utilizados para valores temporários durante a execução.
 
-```asm
-sb $s0, numero
+Eles são adequados para cálculos e informações que não precisam necessariamente ser preservadas por longos períodos.
+
+---
+
+# 💾 Registradores Salvos
+
+Registradores:
+
+```asm id="v45jdf"
+$s0
+$s1
+$s2
+```
+
+são utilizados quando existe interesse em preservar determinados valores.
+
+Por exemplo:
+
+```asm id="uqjfs8"
+move $s0, $t0
+```
+
+Nesse caso, o valor armazenado em `$t0` é copiado para `$s0`.
+
+---
+
+# 💾 Armazenamento na Memória
+
+Outra possibilidade é preservar o valor diretamente na memória.
+
+Para isso, o programa precisa possuir uma área reservada.
+
+Exemplo conceitual:
+
+```asm id="l5v4o1"
+.data
+
+valor: .byte 0
+```
+
+O endereço pode ser carregado com:
+
+```asm id="39jgnp"
+la $t1, valor
 ```
 
 ---
 
-# 💾 `sb` — Store Byte
+# 📥 Store Byte — `sb`
 
 A instrução:
 
-```asm
+```asm id="05h3d9"
 sb
 ```
 
 significa **Store Byte**.
 
-No programa:
+Ela permite armazenar um byte na memória.
 
-```asm
-sb $s0, numero
+Exemplo:
+
+```asm id="2f4vd4"
+sb $t0, 0($t1)
 ```
 
-o byte menos significativo armazenado em `$s0` é salvo na posição identificada por `numero`.
+Nesse caso:
 
-Visualmente:
-
-```text
-$s0
+```text id="iuk3dv"
+$t0
  │
- │ sb
+ │ valor
  ▼
-┌──────────────┐
-│   Memória    │
-│              │
-│ numero: byte │
-└──────────────┘
+Memória apontada por $t1
+```
+
+O conteúdo de `$t0` é armazenado na posição de memória indicada.
+
+---
+
+# 📤 Load Byte — `lb`
+
+Para recuperar o valor armazenado:
+
+```asm id="57ch5s"
+lb $t2, 0($t1)
+```
+
+A instrução **Load Byte** lê o valor presente na memória e o coloca em um registrador.
+
+Fluxo:
+
+```text id="fylp9x"
+Memória
+   │
+   │ lb
+   ▼
+  $t2
 ```
 
 ---
 
-# 📥 `lb` — Load Byte
+# 🆚 Registrador x Memória
 
-Quando o valor precisa ser utilizado novamente:
+Um dos principais pontos desta atividade é observar a diferença entre armazenar um valor em um registrador e armazená-lo na memória.
 
-```asm
-lb $s1, numero
+## Registrador
+
+```asm id="bbg8ol"
+move $s0, $t0
 ```
 
-é executado.
+Fluxo:
 
-`lb` significa **Load Byte**.
+```text id="u2a4bl"
+$t0
+ │
+ ▼
+$s0
+```
 
-Assim:
+O valor permanece diretamente em um registrador do processador.
 
-```text
-┌──────────────┐
-│   Memória    │
-│              │
-│ numero: byte │
-└──────┬───────┘
-       │
-       │ lb
-       ▼
-      $s1
+---
+
+## Memória
+
+```asm id="8x6qt2"
+sb $t0, 0($t1)
 ```
 
 Depois:
 
-```asm
-beq $v0, $s1, acertou
+```asm id="3f9r0o"
+lb $t2, 0($t1)
 ```
 
-compara a tentativa atual com o valor recuperado da memória.
+Fluxo:
 
----
-
-# ⚖️ Abordagem 1 x Abordagem 2
-
-| Característica          | Abordagem 1    | Abordagem 2     |
-| ----------------------- | -------------- | --------------- |
-| Armazenamento principal | Registrador    | Memória         |
-| Valor inicial           | `$t0`          | `numero: .byte` |
-| Store                   | `move`         | `sb`            |
-| Load                    | Não necessário | `lb`            |
-| Comparação              | `$v0` x `$t0`  | `$v0` x `$s1`   |
-| Loop                    | `j loop`       | `j loop`        |
-| Condição                | `beq`          | `beq`           |
-
-Visualmente:
-
-```text
-ABORDAGEM 1
-
-Entrada
-   │
-   ▼
-  $v0
-   │
- move
-   ▼
-  $t0
-   │
-   └──────► comparação
-
-
-ABORDAGEM 2
-
-Entrada
-   │
-   ▼
-  $v0
-   │
- move
-   ▼
-  $s0
-   │
-  sb
-   ▼
+```text id="wxxu4r"
+$t0
+ │
+ │ sb
+ ▼
 Memória
-   │
-  lb
-   ▼
-  $s1
-   │
-   └──────► comparação
+ │
+ │ lb
+ ▼
+$t2
+```
+
+Nesse segundo caso, existe uma transferência explícita entre registrador e memória.
+
+---
+
+# ⚡ Diferença Conceitual
+
+De forma simplificada:
+
+| Registradores                           | Memória                                |
+| --------------------------------------- | -------------------------------------- |
+| Dentro do processador                   | Fora do conjunto de registradores      |
+| Acesso muito rápido                     | Acesso relativamente mais lento        |
+| Quantidade limitada                     | Maior capacidade                       |
+| Utilizados diretamente pelas instruções | Dados precisam ser carregados          |
+| Ideais para valores em uso              | Ideal para armazenamento de mais dados |
+
+Essa diferença é fundamental para compreender a organização de um computador.
+
+---
+
+# 🔄 Comparação com C
+
+Em C, uma variável pode ser utilizada sem que o programador precise decidir explicitamente onde cada operação será realizada.
+
+```c id="dbws0o"
+int valor = 10;
+```
+
+O compilador é responsável por decidir como esse valor será tratado durante a execução.
+
+Em Assembly, o programador trabalha diretamente com:
+
+```text id="j6m6vh"
+registradores
+     +
+memória
+```
+
+Por isso, operações de armazenamento e recuperação precisam ser descritas explicitamente.
+
+---
+
+# 🧩 Fluxo da Atividade
+
+A lógica estudada pode ser representada de forma simplificada por:
+
+```text id="6smf34"
+           Entrada
+              │
+              ▼
+          Registrador
+              │
+       ┌──────┴──────┐
+       │             │
+       ▼             ▼
+Registrador       Memória
+  salvo              │
+       │             │
+       │             ▼
+       │          Store
+       │             │
+       │             ▼
+       │          Memória
+       │             │
+       │             ▼
+       │           Load
+       │             │
+       └──────┬──────┘
+              ▼
+           Resultado
+```
+
+Essa comparação permite visualizar diferentes formas de manipular e preservar informações em baixo nível.
+
+---
+
+# 🛠️ Tecnologias
+
+<div align="center">
+
+<img src="https://skillicons.dev/icons?i=c" alt="C" />
+
+<br><br>
+
+<img src="https://img.shields.io/badge/Assembly-MIPS-6E4C13?style=for-the-badge&logo=intel&logoColor=white" alt="Assembly MIPS" />
+<img src="https://img.shields.io/badge/MARS-MIPS%20Simulator-F28C28?style=for-the-badge" alt="MARS" />
+
+</div>
+
+---
+
+# ▶️ Execução
+
+## Código C
+
+Para compilar utilizando GCC:
+
+```bash id="y3wkyq"
+gcc programa.c -o programa
+```
+
+No Linux:
+
+```bash id="bdv9ve"
+./programa
+```
+
+No Windows:
+
+```bash id="bq13is"
+programa.exe
 ```
 
 ---
 
-# 🧠 Registradores Utilizados
+## Assembly MIPS
 
-## Abordagem 1
+Abra o arquivo `.asm` utilizando o MARS.
 
-| Registrador | Função                    |
-| ----------- | ------------------------- |
-| `$v0`       | Syscall e tentativa atual |
-| `$a0`       | Endereço das mensagens    |
-| `$t0`       | Número inicial            |
-
-## Abordagem 2
-
-| Registrador | Função                         |
-| ----------- | ------------------------------ |
-| `$v0`       | Syscall e tentativa atual      |
-| `$a0`       | Endereço das mensagens         |
-| `$s0`       | Número antes de ser armazenado |
-| `$s1`       | Número recuperado da memória   |
-
----
-
-# 🧩 Instruções Trabalhadas
-
-| Instrução | Função                              |
-| --------- | ----------------------------------- |
-| `li`      | Carrega um valor imediato           |
-| `la`      | Carrega um endereço                 |
-| `move`    | Copia valores entre registradores   |
-| `beq`     | Desvia se dois valores forem iguais |
-| `j`       | Salto incondicional                 |
-| `sb`      | Armazena um byte na memória         |
-| `lb`      | Carrega um byte da memória          |
-| `syscall` | Executa uma chamada de sistema      |
-
----
-
-# 📈 Evolução da Atividade
-
-```text
-Jump
- │
- ▼
-Labels
- │
- ▼
-Loop
- │
- ▼
-Comparação com BEQ
- │
- ▼
-Armazenamento
- │
- ├──────────────┐
- ▼              ▼
-Registrador   Memória
-                 │
-                 ├── SB
-                 └── LB
+```text id="8q3ojp"
+Arquivo .asm
+    │
+    ▼
+Assemble
+    │
+    ▼
+Run
+    │
+    ├── Console
+    ├── Registers
+    └── Data Segment
 ```
 
-A atividade parte do controle simples do fluxo de execução e evolui para a comparação entre diferentes formas de armazenar dados.
+Para esta atividade, a área **Data Segment** é particularmente útil, pois permite observar as alterações realizadas diretamente na memória.
 
 ---
 
-# 📚 Conceitos Trabalhados
+# 🔎 Análise no MARS
+
+Durante a execução passo a passo, é possível acompanhar:
+
+### Registradores
+
+Observar valores presentes em:
+
+```asm id="yq3klq"
+$t0
+$t1
+$t2
+$s0
+```
+
+### Memória
+
+Observar o endereço utilizado pelas instruções:
+
+```asm id="ve4v44"
+sb
+lb
+```
+
+### Program Counter
+
+Também é possível acompanhar a mudança no fluxo de execução causada por:
+
+```asm id="fw0a7i"
+beq
+bne
+j
+```
+
+Isso torna o MARS uma ferramenta importante para visualizar o funcionamento interno do programa.
+
+---
+
+# 📚 Conceitos Praticados
+
+Esta atividade trabalha principalmente:
 
 * Assembly MIPS;
-* registradores;
-* memória;
-* `.byte`;
+* controle de fluxo;
 * labels;
+* jumps;
+* branches;
 * loops;
-* `j`;
-* `beq`;
-* `move`;
+* registradores temporários;
+* registradores salvos;
+* memória;
+* endereçamento;
 * `sb`;
 * `lb`;
-* syscalls;
-* estruturas de repetição;
-* estruturas condicionais;
-* comparação entre registradores e memória;
-* tradução de C para Assembly.
+* movimentação de dados;
+* comparação entre memória e registradores.
 
 ---
 
-# 🎯 Objetivo
+# 🎓 Relação com Arquitetura de Computadores
 
-O objetivo da atividade é compreender como estruturas comuns de programação podem ser implementadas em Assembly.
+A atividade ajuda a demonstrar uma característica fundamental da arquitetura dos computadores:
 
-A primeira abordagem demonstra como um valor pode permanecer em um **registrador**, enquanto a segunda utiliza explicitamente a **memória** através das instruções `sb` e `lb`.
+```text id="98h3dd"
+             CPU
+              │
+       ┌──────┴──────┐
+       ▼             ▼
+ Registradores     Memória
+       │             │
+       └──────┬──────┘
+              │
+              ▼
+          Instruções
+```
 
-Dessa forma, é possível observar na prática a diferença entre armazenamento em registradores e armazenamento em memória dentro de um programa MIPS.
+O processador realiza operações principalmente sobre valores presentes em registradores.
+
+Quando um dado está armazenado na memória, ele normalmente precisa ser carregado para um registrador antes de ser utilizado.
+
+Essa relação aparece constantemente em programação de baixo nível.
+
+---
+
+# 🚀 Continuidade
+
+Os conceitos desta atividade servem como base para conteúdos mais avançados, como:
+
+* vetores;
+* strings;
+* stack;
+* funções;
+* procedimentos;
+* passagem de parâmetros;
+* manipulação de blocos de memória;
+* estruturas de dados;
+* chamadas de funções em Assembly.
+
+---
+
+<div align="center">
+
+### Gabriel Cattuzo
+
+Computer Engineering — PUC-Campinas
+
+[⬅️ Voltar ao repositório principal](../README.md)
+
+</div>
