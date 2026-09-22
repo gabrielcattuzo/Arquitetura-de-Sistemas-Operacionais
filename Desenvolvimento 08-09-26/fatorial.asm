@@ -1,82 +1,75 @@
+# Nome: Gabriel Cattuzo
+# RA: 24015324
+# Lab03 - Fatorial recursivo
+
 .data
-    msg1: .asciiz "\nDigite um numero: "
-    msg2: .asciiz "\nFatorial: "
+msg1:  .asciiz "\nDigite um numero: "
+msg2:  .asciiz "\nFatorial: "
+saida: .asciiz "\nPressione Enter para sair."
 
 .text
 .globl main
 
 main:
-    # Imprime mensagem
+    # Le o numero
     li $v0, 4
     la $a0, msg1
     syscall
 
-    # Le numero
     li $v0, 5
     syscall
-
-    # Coloca o argumento da funcao em $a0
     move $a0, $v0
 
-    # Chama fatorial
+    # Calcula o fatorial
     jal fatorial
+    move $s0, $v0
 
-    # Resultado volta em $v0
-    move $t0, $v0
-
-    # Imprime mensagem
+    # Imprime o resultado
     li $v0, 4
     la $a0, msg2
     syscall
 
-    # Imprime resultado
     li $v0, 1
-    move $a0, $t0
+    move $a0, $s0
     syscall
 
-    # Encerra
+    # Espera Enter para sair
+    li $v0, 4
+    la $a0, saida
+    syscall
+
+esperar_enter:
+    li $v0, 12
+    syscall
+
+    li $t0, 10
+    bne $v0, $t0, esperar_enter
+
     li $v0, 10
     syscall
 
 
+# Entrada: $a0 = n
+# Saida:   $v0 = fatorial(n)
+
 fatorial:
+    slti $t0, $a0, 2
+    bne $t0, $zero, caso_base
 
-    # Caso base:
-    # if (n <= 1)
-    ble $a0, 1, caso_base
+    addiu $sp, $sp, -8
+    sw $a0, 0($sp)          # Salva n
+    sw $ra, 4($sp)          # Salva retorno
 
-    # Reserva 8 bytes na pilha
-    addi $sp, $sp, -8
-
-    # Salva o endereco de retorno
-    sw $ra, 4($sp)
-
-    # Salva o valor atual de n
-    sw $a0, 0($sp)
-
-    # n - 1
-    addi $a0, $a0, -1
-
-    # Chamada recursiva
+    addiu $a0, $a0, -1
     jal fatorial
 
-    # Recupera n original
     lw $a0, 0($sp)
-
-    # Recupera endereco de retorno
     lw $ra, 4($sp)
+    addiu $sp, $sp, 8
 
-    # Libera espaco da pilha
-    addi $sp, $sp, 8
-
-    # resultado = n * fatorial(n - 1)
     mul $v0, $a0, $v0
-
-    # Volta para quem chamou
     jr $ra
 
-
 caso_base:
-
     li $v0, 1
     jr $ra

@@ -1,32 +1,20 @@
 #include <stdio.h>
 
-int fibonacci(int n)
-{
-    if (n == 0)
-    {
-        return 0;
-    }
-
-    if (n == 1)
-    {
-        return 1;
-    }
-
-    return fibonacci(n - 1) + fibonacci(n - 2);
-}
-
 int main()
 {
-    int numeros[12];
+    int anterior = 0;
+    int atual = 1;
+    int proximo;
+
+    printf("Serie de Fibonacci: ");
 
     for (int i = 0; i < 12; i++)
     {
-        numeros[i] = fibonacci(i);
-    }
+        printf("%d ", anterior);
 
-    for (int i = 0; i < 12; i++)
-    {
-        printf("%d ", numeros[i]);
+        proximo = anterior + atual;
+        anterior = atual;
+        atual = proximo;
     }
 
     return 0;
