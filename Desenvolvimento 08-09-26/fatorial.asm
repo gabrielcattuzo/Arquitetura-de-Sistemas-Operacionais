@@ -1,6 +1,3 @@
-# Nome: Gabriel Cattuzo
-# RA: 24015324
-# Lab03 - Fatorial recursivo
 
 .data
 msg1:  .asciiz "\nDigite um numero: "

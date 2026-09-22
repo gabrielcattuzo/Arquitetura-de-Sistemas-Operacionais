@@ -1,7 +1,3 @@
-# Nome: Gabriel Cattuzo
-# RA: 24015324
-# Lab03 - Fibonacci recursivo
-
 .data
 vetor: .space 48
 msg:   .asciiz "Serie de Fibonacci: "
